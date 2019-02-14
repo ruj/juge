@@ -1,7 +1,7 @@
 let sql = require('sqlite3');
-	db = new sql.Database('./data/src.sqlite');
-	log = (msg) => { console.log(`| ${moment().format('DD-MM-YYYY | HH:mm:ss')} | ${msg} |`); };
-	log(`SQL | Initialized database connection`);
+    db = new sql.Database('./data/src.sqlite');
+    log = (msg) => { console.log(`| ${moment().format('DD-MM-YYYY | HH:mm:ss')} | ${msg} |`); };
+    log(`SQL | Initialized database connection`);
 
 var tables = {
 	blacklist: [
