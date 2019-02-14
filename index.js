@@ -1,21 +1,21 @@
 let Discord 		= require('discord.js');
-	randomPuppy 	= require('random-puppy');
-	upperCase 		= require('upper-case');
-	snekfetch 		= require('snekfetch');
-	nekos 			= require('nekos.life');
-	request 		= require('request');
-	moment 			= require('moment');
-					  require('moment-duration-format');
-	colors 			= require('colors');
-	con 			= require('./sql.js');
-	app 			= express();
-	fs 				= require('fs');
-	CONFIG 			= require('./settings/config.js');
-	CREDENTIALS 	= require('./settings/credentials.js');
-	talkedRecently 	= new Set();
-	neko 			= new nekos();
-	b 				= new Discord.Client();
-	log = (msg) => { console.log(`| ${moment().format('DD-MM-YYYY | HH:mm:ss')} | ${msg} |`); };
+    randomPuppy 	= require('random-puppy');
+    upperCase 		= require('upper-case');
+    snekfetch 		= require('snekfetch');
+    nekos 		= require('nekos.life');
+    request 		= require('request');
+    moment 		= require('moment');
+			  require('moment-duration-format');
+    colors 		= require('colors');
+    con 		= require('./sql.js');
+    app 		= express();
+    fs 			= require('fs');
+    CONFIG 		= require('./settings/config.js');
+    CREDENTIALS 	= require('./settings/credentials.js');
+    talkedRecently 	= new Set();
+    neko 		= new nekos();
+    b 			= new Discord.Client();
+    log = (msg) => { console.log(`| ${moment().format('DD-MM-YYYY | HH:mm:ss')} | ${msg} |`); };
 
 app.listen(process.env.PORT || 3000 ,function() {
 	log(`Up and running on port: ${process.env.PORT}`);
