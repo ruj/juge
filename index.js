@@ -124,7 +124,7 @@ function current_presence() {
 				{ game: { name: `${b.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString() - 1} usuários`, type: 'LISTENING' }, staus: 'online' },
 				{ game: { name: `${b.guilds.size} servidor${b.guilds.size == 1 ? '' : 'es'}`, type: 'WATCHING' }, status: 'online' },
 				{ game: { name: randVid[Math.floor(Math.random() * randVid.length)], type: 'WATCHING' }, status: 'online' },
-				{ game: { name: `undefined`, type: 'STREAMING', url: 'https://www.twitch.tv/ayytenasa' }, status: 'dnd' }]; // pornografia infântil
+				{ game: { name: `undefined`, type: 'STREAMING', url: 'https://www.twitch.tv/ayytenasa' }, status: 'dnd' }];
 			var presence = botPresence;
 			presence.sort(function() { return .5 * Math.random });
 			for (let i = 0; i < presence.length; i++) {
