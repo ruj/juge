@@ -2,6 +2,7 @@ let Discord 		= require('discord.js');
     randomPuppy 	= require('random-puppy');
     upperCase 		= require('upper-case');
     snekfetch 		= require('snekfetch');
+    express 		= require('express');
     nekos 		= require('nekos.life');
     request 		= require('request');
     moment 		= require('moment');
