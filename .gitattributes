@@ -1,2 +1,3 @@
-test/fixtures/* -text
-vcbuild.bat text eol=crlf
+
+src/commands/* linguist-vendored
+src/img/* linguist-vendored
