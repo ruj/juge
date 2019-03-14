@@ -1,7 +1,7 @@
 {
   "name": "juge",
-  "description": "A loli pretty perverted with lots of photos for you spending a lot of time locked in your room.",
-  "version": "1.7.3",
+  "description": "A mechanical loli made to satisfy your desires and make lots of memes.",
+  "version": "2.0.0",
   "author": "Tenasa Tupitsyn (EL TENASA)",
   "repository": {
     "type": "git",
@@ -13,6 +13,8 @@
     "discord.js": "^11.4.2",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
+    "iconv-lite": "^0.4.24",
+    "jimp": "^0.6.0",
     "moment": "^2.21.0",
     "moment-duration-format": "^2.2.2",
     "nekos.life": "^2.0.2",

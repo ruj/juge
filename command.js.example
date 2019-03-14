@@ -2,15 +2,13 @@ exports.run = (Discord, b, message, params) => {
 	// do stuff
 };
 
-exports.conf = {
-	enabled: true,
-  	guildOnly: true,
-  	aliases: ['alias1', 'alias2'],
-  	permLevel: 0
-};
-
-exports.help = {
-  	name : 'command',
-  	description: 'Command Description',
-  	usage: 'command <argument>'
+exports.config = {
+    name: '',
+    aliases: [],
+    permission: '',
+    permlevel: 0,
+    description: '',
+    usage: ``,
+    category: '',
+    enabled: true
 };
