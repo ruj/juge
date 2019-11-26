@@ -1,12 +1,14 @@
 module.exports = {
 	name: 'ping',
-	aliases: [],
+	aliases: ['latency'],
 	permissions: [],
 	permissionLevel: 0,
-	description: 'Message response time',
+	description: 'Latency time',
 	usage: '',
 	category: 'utility',
+	guildOnly: false,
 	params: false,
+	nsfw: false,
 	cooldown: 5,
 	enabled: true,
 	execute(Juge, message, params) {

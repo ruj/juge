@@ -13,19 +13,22 @@ module.exports = (Juge, message) => {
 	const permission = Juge.elevation(message);
 
 	if (!command) return;
-	if (command.guildOnly && message.channel.type !== 'text') return;
+	if (command.guildOnly && message.channel.type !== 'text') return message.reply('I can\'t execute that command inside DMs!');
 	if (command.params && !params.length) {
-		message.reply('you did not provide any parameters.');
-		if (command.usage) {
-			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor.embed(message))
-				.setTitle('Usage')
-				.setDescription(`${process.env.PREFIX}${command.name} ${command.usage}`);
-			message.channel.send(embed);
-		}
+		return message.reply('you did not provide any parameters.')
+			.then(() => {
+				if (command.usage) {
+					const embed = new Juge.RichEmbed()
+						.setColor(Juge.util.hexColor.embed(message))
+						.setTitle('Usage')
+						.setDescription(`${process.env.PREFIX}${command.name} ${command.usage}`);
+					message.channel.send(embed);
+				}
+			});
 	}
 	if (permission < command.permissionLevel) return;
 	if (message.author.id !== Juge.config.ownerID && !command.enabled) return message.reply('sorry the command has been \`Disabled\`.');
+	
 	if (!Juge.cooldowns.has(command.name)) {
 		Juge.cooldowns.set(command.name, new (require('discord.js')).Collection());
 	}
@@ -33,6 +36,7 @@ module.exports = (Juge, message) => {
 	const now = Date.now();
 	const timestamps = Juge.cooldowns.get(command.name);
 	const cooldownAmount = (command.cooldown || 3) * 1E3;
+	
 	if (timestamps.has(message.author.id)) {
 		const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 		if (now < expirationTime) {
@@ -40,6 +44,7 @@ module.exports = (Juge, message) => {
 			return message.reply(`please wait \`${timeLeft.toFixed(1)}\` more second(s).`);
 		}
 	}
+	
 	timestamps.set(message.author.id, now);
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
