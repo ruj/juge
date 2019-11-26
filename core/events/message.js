@@ -26,6 +26,10 @@ module.exports = (Juge, message) => {
 				}
 			});
 	}
+	if (!message.guild.me.permissions.toArray().includes(command.permissions)) {
+		const reqPermissions = Juge.util.difference(command.permissions, message.guild.me.permissions.toArray());
+		return message.reply(`for this command to work I need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
+	}
 	if (command.category === 'nsfw' && !message.channel.nsfw) {
 		const embed = new Juge.RichEmbed()
 			.setColor(Juge.util.hexColor.error)
