@@ -14,6 +14,21 @@ module.exports = (Juge, message) => {
 
 	if (!command) return;
 	if (command.guildOnly && message.channel.type !== 'text') return message.reply('I can\'t execute that command inside DMs!');
+
+	if (!message.guild.me.permissions.toArray().includes(command.permissions)) {
+		const reqPermissions = Juge.util.difference(command.permissions, message.guild.me.permissions.toArray());
+		if (reqPermissions.length > 0) return message.reply(`for this command to work I need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
+	}
+
+	if (command.category === 'nsfw' && !message.channel.nsfw) {
+		const embed = new Juge.RichEmbed()
+			.setColor(Juge.util.hexColor.error)
+			.setTitle('NSFW Command')
+			.setDescription('Please switch to NSFW channel in order to use this command.')
+			.setImage('https://a.kyouko.se/m3cN.jpg')
+		return message.channel.send(embed);
+	}
+
 	if (command.params && !params.length) {
 		return message.reply('you did not provide any parameters.')
 			.then(() => {
@@ -26,18 +41,7 @@ module.exports = (Juge, message) => {
 				}
 			});
 	}
-	if (!message.guild.me.permissions.toArray().includes(command.permissions)) {
-		const reqPermissions = Juge.util.difference(command.permissions, message.guild.me.permissions.toArray());
-		return message.reply(`for this command to work I need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
-	}
-	if (command.category === 'nsfw' && !message.channel.nsfw) {
-		const embed = new Juge.RichEmbed()
-			.setColor(Juge.util.hexColor.error)
-			.setTitle('NSFW Command')
-			.setDescription('Please switch to NSFW channel in order to use this command.')
-			.setImage('https://a.kyouko.se/m3cN.jpg')
-		return message.channel.send(embed);
-	}
+
 	if (permission < command.permissionLevel) return;
 	if (message.author.id !== Juge.config.ownerID && !command.enabled) return message.reply('sorry the command has been \`Disabled\`.');
 	
