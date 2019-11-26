@@ -1,14 +1,13 @@
 module.exports = {
 	name: 'ping',
 	aliases: ['latency'],
-	permissions: [],
+	permissions: ['EMBED_LINKS'],
 	permissionLevel: 0,
 	description: 'Latency time',
 	usage: '',
 	category: 'utility',
 	guildOnly: false,
 	params: false,
-	nsfw: false,
 	cooldown: 5,
 	enabled: true,
 	execute(Juge, message, params) {
