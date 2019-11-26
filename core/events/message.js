@@ -26,6 +26,14 @@ module.exports = (Juge, message) => {
 				}
 			});
 	}
+	if (command.category === 'nsfw' && !message.channel.nsfw) {
+		const embed = new Juge.RichEmbed()
+			.setColor(Juge.util.hexColor.error)
+			.setTitle('NSFW Command')
+			.setDescription('Please switch to NSFW channel in order to use this command.')
+			.setImage('https://a.kyouko.se/m3cN.jpg')
+		return message.channel.send(embed);
+	}
 	if (permission < command.permissionLevel) return;
 	if (message.author.id !== Juge.config.ownerID && !command.enabled) return message.reply('sorry the command has been \`Disabled\`.');
 	
@@ -44,7 +52,7 @@ module.exports = (Juge, message) => {
 			return message.reply(`please wait \`${timeLeft.toFixed(1)}\` more second(s).`);
 		}
 	}
-	
+
 	timestamps.set(message.author.id, now);
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
