@@ -1,4 +1,5 @@
 const Juge = new (require('./structures/Discord.js'))({
+	prefixes: process.env.PREFIXES.split(','),
 	ownerID: process.env.OWNER_ID
 });
 const express = (require('express'))();
