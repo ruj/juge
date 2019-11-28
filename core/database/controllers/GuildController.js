@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const Guild = require('../models/Guild.js');
 
 module.exports.add = (guild) => {
-	Guild.create({
+	return Guild.create({
 		_id: guild.id,
 		prefix: ''
 	})
-	.then((created) => created)
+	.then((data) => data)
 	.catch((error) => error);
 };
 
 module.exports.remove = (guild) => {
-	Guild.findOneAndRemove({ _id: guild.id })
-		.then((removed) => removed)
+	return Guild.deleteOne({ _id: guild.id })
+		.then((data) => data)
 		.catch((error) => error);
 };
