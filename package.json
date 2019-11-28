@@ -1,6 +1,6 @@
 {
   "name": "juge",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "A mechanical loli made to satisfy your desires and make lots of memes",
   "main": "index.js",
   "repository": {
@@ -14,6 +14,7 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "express": "^4.17.1",
+    "mongoose": "^5.7.12",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
