@@ -38,7 +38,6 @@ module.exports = {
 	},
 
 	_get(endpoint) {
-		return require('node-fetch')(`${API_URL}${endpoint}`)
-			.then((response) => response.json())
+		return require('node-fetch')(`${API_URL}${endpoint}`).then((response) => response.json());
 	}
 };
