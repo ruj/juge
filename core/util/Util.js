@@ -14,5 +14,12 @@ module.exports = {
 
 	sendCode(string, options = {}) {
 		return `\`\`\`${options.code}\n${string}\`\`\``;
+	},
+
+	checkDays(date) {
+		let difference = new Date().getTime() - new Date(date).getTime();
+		let days = Math.floor(difference / 86400000);
+
+		return `${days} ${days == 1 ? 'day' : 'days'}`;
 	}
 };
