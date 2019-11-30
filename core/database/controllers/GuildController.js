@@ -1,13 +1,31 @@
-const mongoose = require('mongoose');
+const MongoController = require('../MongoController.js');
 const Guild = require('../models/Guild.js');
 
-module.exports.add = (guild) => Guild.create({
-	_id: guild.id,
-	prefix: ''
-});
+module.exports = {
+	add(guild) {
+		return MongoController.add(Guild, {
+			_id: guild.id,
+			prefix: ''
+		});
+	},
 
-module.exports.findOne = ({ id }) => Guild.findOne({ _id: id });
+	findOne({ id }, projection) {
+		return MongoController.findOne(Guild, id, projection);
+	},
 
-module.exports.remove = ({ id }) => Guild.deleteOne({ _id: id });
+	findAll(projection) {
+		return MongoController.findAll(Guild, projection);
+	},
 
-module.exports.update = ({ id }, entity, options = { upsert: true }) => Guild.updateOne({ _id: id }, entity, options);
+	get({ id }, projection) {
+		return MongoController.get(Guild, id, projection);
+	},
+
+	remove({ id }) {
+		return MongoController.remove(Guild, id);
+	},
+
+	update({ id }, entity) {
+		return MongoController.update(Guild, id, entity);
+	}
+};
