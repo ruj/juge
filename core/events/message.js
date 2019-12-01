@@ -3,7 +3,13 @@ const { GuildController } = require('../database/controllers');
 module.exports = (Juge, message) => {
 	Juge.elevation = (message) => {
 		let level = 0;
+
+		if (message.member.permissions.has('MANAGE_CHANNELS')) level = 5;
+		if (message.member.permissions.has('MANAGE_GUILD')) level = 6;
+		if (message.member.permissions.has('ADMINISTRATOR')) level = 7;
+
 		if (message.author.id === Juge.config.ownerID) level = 9;
+		
 		return level;
 	};
 
