@@ -1,6 +1,6 @@
 {
   "name": "juge",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "A mechanical loli made to satisfy your desires and make lots of memes",
   "main": "index.js",
   "repository": {
@@ -12,6 +12,7 @@
     "url": "http://tenasa.gq"
   },
   "dependencies": {
+    "booru": "^2.0.3",
     "discord.js": "^11.4.2",
     "express": "^4.17.1",
     "mongoose": "^5.7.12",
