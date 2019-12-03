@@ -3,6 +3,10 @@ module.exports = {
 		return left.filter((value) => !right.includes(value));
 	},
 
+	randomItem(items) {
+		return items[Math.floor(Math.random() * items.length)];
+	},
+
 	hexColor: {
 		embed(message) {
 			return message.guild.me.displayHexColor !== '#000000' ? message.guild.me.displayHexColor : '#36393F';
