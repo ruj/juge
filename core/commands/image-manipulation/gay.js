@@ -20,7 +20,8 @@ module.exports = {
 			const filter = await Jimp.read(resolve(__dirname, '..', '..', 'assets', 'png', 'gay.png'));
 			const image = await Jimp.read(avatar);
 			image.resize(512, 512);
-			await message.channel.send({ files: [{ attachment: await image.composite(filter, 0, 0).getBufferAsync(Jimp.MIME_PNG), name: 'gay.png' }] }).then(message.channel.stopTyping());
+			image.composite(filter, 0, 0);
+			await message.channel.send({ files: [{ attachment: await image.getBufferAsync(Jimp.MIME_PNG), name: 'gay.png' }] }).then(message.channel.stopTyping());
 		} catch (error) {
 			const embed = new Juge.RichEmbed()
 				.setColor(Juge.util.hexColor.error)
