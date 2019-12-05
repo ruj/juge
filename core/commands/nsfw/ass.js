@@ -30,7 +30,7 @@ module.exports = {
 		} catch (error) {
 			const embed = new Juge.RichEmbed()
 				.setColor(Juge.util.hexColor.error)
-				.setDescription(`:x: : ${error.message}`)
+				.setDescription(`:x: : Oops, **${error.message}**`)
 			message.channel.send(embed);
 		}
 	}

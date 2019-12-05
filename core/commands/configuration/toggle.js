@@ -20,7 +20,7 @@ module.exports = {
 				.catch((error) => {
 					const embed = new Juge.RichEmbed()
 						.setColor(Juge.util.hexColor.error)
-						.setDescription(`:x: : ${error.message}`)
+						.setDescription(`:x: : Oops, **${error.message}**`)
 					message.channel.send(embed);
 				});
 		} else if (params.length && [ 'FALSE', 'DISABLE' ].includes(params[0].toUpperCase()) && message.channel.nsfw) {
@@ -32,7 +32,7 @@ module.exports = {
 				.catch((error) => {
 					const embed = new Juge.RichEmbed()
 						.setColor(Juge.util.hexColor.error)
-						.setDescription(`:x: : ${error.message}`)
+						.setDescription(`:x: : Oops, **${error.message}**`)
 					message.channel.send(embed);
 				});
 		} else {
@@ -58,7 +58,7 @@ module.exports = {
 				} else if (react.emoji.name === '❌') {
 					const embed = new Juge.RichEmbed()
 						.setColor(Juge.util.hexColor.embed(message))
-						.setDescription(':octagonal_sign: : Action canceled.')
+						.setDescription(':octagonal_sign: : **Action canceled**')
 					_message.edit(embed).then((m) => m.delete(2555));
 					_message.clearReactions();
 				}

@@ -25,7 +25,7 @@ module.exports = {
 					.catch((error) => {
 						const embed = new Juge.RichEmbed()
 							.setColor(Juge.util.hexColor.error)
-							.setDescription(`:x: : ${error.message}`)
+							.setDescription(`:x: : Oops, **${error.message}**`)
 						message.channel.send(embed);
 					});
 			} else if ([ 'DELETE', 'REMOVE', 'RESET' ].includes(params[0].toUpperCase())) {
@@ -39,7 +39,7 @@ module.exports = {
 					.catch((error) => {
 						const embed = new Juge.RichEmbed()
 							.setColor(Juge.util.hexColor.error)
-							.setDescription(`:x: : ${error.message}`)
+							.setDescription(`:x: : Oops, **${error.message}**`)
 						message.channel.send(embed);
 					});
 			} else {
@@ -62,7 +62,7 @@ module.exports = {
 				.catch((error) => {
 					const embed = new Juge.RichEmbed()
 						.setColor(Juge.util.hexColor.error)
-						.setDescription(`:x: : ${error.message}`)
+						.setDescription(`:x: : Oops, **${error.message}**`)
 					message.channel.send(embed);
 				});
 		}
