@@ -3,7 +3,9 @@ const { Client, Collection, RichEmbed } = require('discord.js');
 module.exports = class extends Client {
 	constructor(config) {
 		super({
-			disableEveryone: true
+			fetchAllMembers: true,
+			disableEveryone: true,
+			disabledEvents: ['TYPING_START']
 		});
 
 		this.commands = new Collection();
