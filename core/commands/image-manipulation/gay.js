@@ -3,7 +3,7 @@ const Jimp = require('jimp');
 
 module.exports = {
 	name: 'gay',
-	aliases: ['gai'],
+	aliases: ['gai', 'rainbow'],
 	permissions: ['EMBED_LINKS', 'ATTACH_FILES'],
 	permissionLevel: 0,
 	description: 'Generates avatar photo with rainbow filter',
