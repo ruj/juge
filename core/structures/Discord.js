@@ -14,6 +14,7 @@ module.exports = class extends Client {
 		this.RichEmbed = RichEmbed;
 		this.log = (message, ...tags) => console.log(...tags.map((tag) => tag), message);
 		this.util = require('../util/Util.js');
+		this.Reddit = require('../util/Reddit.js');
 		this.config = config;
 	}
 };
