@@ -1,10 +1,17 @@
 module.exports = {
+	checkDays(date) {
+		let difference = new Date().getTime() - new Date(date).getTime();
+		let days = Math.floor(difference / 86400000);
+
+		return `${days} ${days == 1 ? 'day' : 'days'}`;
+	},
+
 	difference(left, right) {
 		return left.filter((value) => !right.includes(value));
 	},
 
-	randomItem(items) {
-		return items[Math.floor(Math.random() * items.length)];
+	hex(string) {
+		return Buffer.from(string, 'utf8').toString('hex');
 	},
 
 	hexColor: {
@@ -16,14 +23,11 @@ module.exports = {
 		error: '#FF0000'
 	},
 
-	sendCode(string, options = {}) {
-		return `\`\`\`${options.code}\n${string}\`\`\``;
+	randomItem(items) {
+		return items[Math.floor(Math.random() * items.length)];
 	},
 
-	checkDays(date) {
-		let difference = new Date().getTime() - new Date(date).getTime();
-		let days = Math.floor(difference / 86400000);
-
-		return `${days} ${days == 1 ? 'day' : 'days'}`;
+	sendCode(string, options = {}) {
+		return `\`\`\`${options.code}\n${string}\`\`\``;
 	}
 };

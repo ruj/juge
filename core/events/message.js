@@ -1,4 +1,4 @@
-const { GuildController } = require('../database/controllers');
+const { CommandController, GuildController } = require('../database/controllers');
 
 module.exports = async (Juge, message) => {
 	Juge.elevation = (message) => {
@@ -31,7 +31,7 @@ module.exports = async (Juge, message) => {
 					}
 				});
 
-				prefixes.find((prefix) => {
+				prefixes.find(async (prefix) => {
 					if (message.author.bot || !message.content.startsWith(prefix)) return;
 				
 					const params = message.content.slice(prefix.length).split(/ +/);
@@ -90,6 +90,13 @@ module.exports = async (Juge, message) => {
 					setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 					try {
+						const commandExists = await CommandController.findOne(command.name);
+						if (commandExists) {
+							await CommandController.update(command.name, { $set: { count: commandExists.count + 1 } });
+						} else {
+							await CommandController.add(command);
+						}
+
 						command.execute(Juge, message, params);
 					} catch (error) {
 						Juge.log(error.message, 'execute');
