@@ -10,10 +10,6 @@ module.exports = {
 		return left.filter((value) => !right.includes(value));
 	},
 
-	hex(string) {
-		return Buffer.from(string, 'utf8').toString('hex');
-	},
-
 	hexColor: {
 		embed(message) {
 			return message.guild.me.displayHexColor !== '#000000' ? message.guild.me.displayHexColor : '#36393F';
