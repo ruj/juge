@@ -4,14 +4,14 @@ module.exports = (Juge) => {
 
 	activity();
 	setInterval(activity, 60 * 2 * 1E3);
-	
+
 	function activity() {
 		const presences = [
 			{
 				name: Juge.util.randomItem(Juge.config.prefixes),
 				type: 'PLAYING'
 			}, {
-				name: `${Juge.users.map((user) => !user.bot).length} Users`,
+				name: `${Juge.users.filter((user) => !user.bot && user.presence.status !== 'offline').map((user) => user).length} Users`,
 				type: 'WATCHING'
 			}
 		];
