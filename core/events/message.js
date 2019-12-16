@@ -9,7 +9,7 @@ module.exports = async (Juge, message) => {
 		if (message.member.permissions.has('ADMINISTRATOR')) level = 7;
 
 		if (message.author.id === Juge.config.ownerID) level = 9;
-		
+
 		return level;
 	};
 
@@ -33,7 +33,7 @@ module.exports = async (Juge, message) => {
 
 				prefixes.find(async (prefix) => {
 					if (message.author.bot || !message.content.startsWith(prefix)) return;
-				
+
 					const params = message.content.slice(prefix.length).split(/ +/);
 					const commandName = params.shift().toLowerCase();
 					const command = Juge.commands.get(commandName) || Juge.commands.find((command) => command.aliases && command.aliases.includes(commandName));
@@ -69,7 +69,7 @@ module.exports = async (Juge, message) => {
 
 					if (permission < command.permissionLevel) return;
 					if (message.author.id !== Juge.config.ownerID && !command.enabled) return message.reply('sorry the command has been \`Disabled\`.');
-					
+
 					if (!Juge.cooldowns.has(command.name)) {
 						Juge.cooldowns.set(command.name, new (require('discord.js')).Collection());
 					}
@@ -77,7 +77,7 @@ module.exports = async (Juge, message) => {
 					const now = Date.now();
 					const timestamps = Juge.cooldowns.get(command.name);
 					const cooldownAmount = (command.cooldown || 3) * 1E3;
-					
+
 					if (timestamps.has(message.author.id)) {
 						const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 						if (now < expirationTime) {
@@ -99,7 +99,7 @@ module.exports = async (Juge, message) => {
 
 						command.execute(Juge, message, params);
 					} catch (error) {
-						Juge.log(error.message, 'execute');
+						Juge.log(error.message, { tags: ['execute'], color: 'red' });
 					}
 				});
 			} else if (guild === null) {
@@ -110,7 +110,7 @@ module.exports = async (Juge, message) => {
 				message.channel.send(embed);
 			}
 		} catch (error) {
-			Juge.log(error.message, 'message');
+			Juge.log(error.message, { tags: ['message'], color: 'red' });
 		}
 	}
 };

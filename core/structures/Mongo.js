@@ -8,8 +8,8 @@ module.exports = ({ log }) => {
 
 	const Mongo = mongoose.connection;
 
-	Mongo.on('open', () => log('Database connected', 'Mongo'));
-	Mongo.on('error', (error) => log(error.message, 'Mongo'));
+	Mongo.on('open', () => log('Database connected', { tags: ['Mongo'], color: 'cyan' }));
+	Mongo.on('error', (error) => log(error.message, { tags: ['Mongo'], color: 'red' }));
 
 	return Mongo;
 };

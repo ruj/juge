@@ -5,6 +5,6 @@ module.exports = async (Juge, guild) => {
 	if (guildExists) return;
 
 	GuildController.add(guild)
-		.then(() => Juge.log(`${guild.name} (${guild.id})`, 'guildCreate'))
-		.catch((error) => Juge.log(error.message, 'guildCreate'));
+		.then(() => Juge.log(`${guild.name} (${guild.id})`, { tags: ['guildCreate'], color: 'green' }))
+		.catch((error) => Juge.log(error.message, { tags: ['guildCreate'], color: 'red' }));
 };

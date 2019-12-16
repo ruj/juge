@@ -1,6 +1,6 @@
 module.exports = (Juge) => {
 	Juge.user.setPresence({ game: { name: `@${Juge.user.username}` }, status: 'dnd' });
-	Juge.log(`${Juge.user.tag} (${Juge.user.id})`, 'ready');
+	Juge.log(`${Juge.user.tag} (${Juge.user.id})`, { tags: ['ready'], color: 'green'});
 
 	activity();
 	setInterval(activity, 60 * 2 * 1E3);

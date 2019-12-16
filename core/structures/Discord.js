@@ -1,4 +1,6 @@
 const { Client, Collection, RichEmbed } = require('discord.js');
+const chalk = require('chalk');
+const _ = require('lodash');
 
 module.exports = class extends Client {
 	constructor(config) {
@@ -12,9 +14,16 @@ module.exports = class extends Client {
 		this.aliases = new Collection();
 		this.cooldowns = new Collection();
 		this.RichEmbed = RichEmbed;
-		this.log = (message, ...tags) => console.log(...tags.map((tag) => tag), message);
 		this.util = require('../util/Util.js');
 		this.Reddit = require('../util/Reddit.js');
 		this.config = config;
+	}
+
+	log(message, {
+		tags = [],
+		color = 'white'
+	} = {}) {
+		const colorista = _.get(chalk, color);
+		console.log(...tags.map((tag) => colorista(tag)), chalk.yellow(message));
 	}
 };
