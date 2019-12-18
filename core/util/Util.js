@@ -23,7 +23,7 @@ module.exports = {
 		return items[Math.floor(Math.random() * items.length)];
 	},
 
-	sendCode(string, options = {}) {
-		return `\`\`\`${options.code}\n${string}\`\`\``;
+	sendCode(string, { code = '' } = {}) {
+		return `\`\`\`${code}\n${string}\`\`\``;
 	}
 };
