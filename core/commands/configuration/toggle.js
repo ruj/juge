@@ -13,31 +13,31 @@ module.exports = {
 	async execute(Juge, message, params) {
 		if (params.length && [ 'TRUE', 'ENABLE' ].includes(params[0].toUpperCase()) && !message.channel.nsfw) {
 			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor.success)
+				.setColor(Juge.util.hexColor('SUCCESS'))
 				.setDescription(':white_check_mark: : I **activated** the NSFW filter of this channel.')
 			message.channel.setNSFW(true)
 				.then(message.channel.send(embed))
 				.catch((error) => {
 					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor.error)
+						.setColor(Juge.util.hexColor('ERROR'))
 						.setDescription(`:x: : Oops, **${error.message}**`)
 					message.channel.send(embed);
 				});
 		} else if (params.length && [ 'FALSE', 'DISABLE' ].includes(params[0].toUpperCase()) && message.channel.nsfw) {
 			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor.success)
+				.setColor(Juge.util.hexColor('SUCCESS'))
 				.setDescription(':white_check_mark: : I **disabled** the NSFW filter of this channel.')
 			message.channel.setNSFW(false)
 				.then(message.channel.send(embed))
 				.catch((error) => {
 					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor.error)
+						.setColor(Juge.util.hexColor('ERROR'))
 						.setDescription(`:x: : Oops, **${error.message}**`)
 					message.channel.send(embed);
 				});
 		} else {
 			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor.embed(message))
+				.setColor(Juge.util.hexColor(message))
 				.setDescription(`:tools: : Do you want me to \`${message.channel.nsfw ? 'DISABLE' : 'ENABLE'}\` NSFW content for you on this channel?`)
 			const _message = await message.channel.send(embed);
 
@@ -49,7 +49,7 @@ module.exports = {
 			collector.on('collect', (react) => {
 				if (react.emoji.name === '✅') {
 					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor.success)
+						.setColor(Juge.util.hexColor('SUCCESS'))
 						.setDescription(`:white_check_mark: : I **${message.channel.nsfw ? 'disabled' : 'activated'}** the NSFW filter for this channel.`)
 					message.channel.setNSFW(message.channel.nsfw ? false : true).then(() => {
 						_message.edit(embed);
@@ -57,7 +57,7 @@ module.exports = {
 					});
 				} else if (react.emoji.name === '❌') {
 					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor.embed(message))
+						.setColor(Juge.util.hexColor(message))
 						.setDescription(':octagonal_sign: : **Action canceled**')
 					_message.edit(embed).then((m) => m.delete(2555));
 					_message.clearReactions();
@@ -67,7 +67,7 @@ module.exports = {
 			await collector.on('end', () => {
 				if (collector.total !== 1) {
 					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor.warning)
+						.setColor(Juge.util.hexColor('WARNING'))
 						.setDescription(':warning: : Time to toggle channel content has expired.')
 					_message.edit(embed);
 					_message.clearReactions();

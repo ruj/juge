@@ -10,14 +10,20 @@ module.exports = {
 		return left.filter((value) => !right.includes(value));
 	},
 
-	hexColor: {
-		embed(message) {
-			return message.guild.me.displayHexColor !== '#000000' ? message.guild.me.displayHexColor : '#36393F';
-		},
-		success: '#77B255',
-		warning: '#FFCA42',
-		error: '#FF0000'
-	},
+  hexColor(message) {
+    if (typeof message !== 'string' && message) {
+      const hexColor = message.guild.me.displayHexColor;
+
+      return hexColor !== '#000000' ? hexColor : '#36393F';
+    } else if (message) {
+      if (message.toUpperCase() === 'SUCCESS') return '#77B255';
+      else if (message.toUpperCase() === 'WARNING') return '#FFCA42';
+      else if (message.toUpperCase() === 'ERROR') return '#FF0000';
+      else return '#36393F';
+    } else {
+      return '#36393F';
+    }
+  },
 
 	randomItem(items) {
 		return items[Math.floor(Math.random() * items.length)];

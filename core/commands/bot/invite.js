@@ -18,7 +18,7 @@ module.exports = {
 	execute(Juge, message, params) {
 		const invite = Juge.util.randomItem(invitationPhrases).replace('{{INVITE_LINK}}', INVITE_LINK).replace('{{JUGE_ID}}', Juge.user.id);
 		const embed = new Juge.RichEmbed()
-			.setColor(Juge.util.hexColor.embed(message))
+			.setColor(Juge.util.hexColor(message))
 			.setDescription(invite)
 		message.channel.send(embed);
 	}

@@ -16,10 +16,10 @@ module.exports = {
 		if (!message.content.toUpperCase().includes('LOLI', 'GORE')) {
 			try {
 				const posts = await Booru.search('rule34', [ params.join('_') ], { limit: 1, random: true });
-			
+
 				if (posts.length) {
 					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor.embed(message))
+						.setColor(Juge.util.hexColor(message))
 						.setImage(posts[0].fileUrl)
 					message.channel.send(embed);
 				} else {
@@ -27,13 +27,13 @@ module.exports = {
 				}
 			} catch (error) {
 				const embed = new Juge.RichEmbed()
-					.setColor(Juge.util.hexColor.error)
+					.setColor(Juge.util.hexColor('ERROR'))
 					.setDescription(`:x: : Oops, **${error.message}**`)
 				message.channel.send(embed);
 			}
 		} else {
 			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor.warning)
+				.setColor(Juge.util.hexColor('WARNING'))
 				.setDescription(':warning: : I can not send it here, not even on NSFW channels.')
 			message.channel.send(embed);
 		}

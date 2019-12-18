@@ -24,7 +24,7 @@ module.exports = {
       await message.channel.send({ files: [{ attachment: await image.getBufferAsync(Jimp.MIME_PNG), name: 'cuck.png' }] }).then(message.channel.stopTyping());
     } catch (error) {
       const embed = new Juge.RichEmbed()
-        .setColor(Juge.util.hexColor.error)
+        .setColor(Juge.util.hexColor('ERROR'))
         .setDescription(`:x: : Oops, **${error.message}**`)
       message.channel.send(embed).then(message.channel.stopTyping());
     }

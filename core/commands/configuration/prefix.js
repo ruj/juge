@@ -18,13 +18,13 @@ module.exports = {
 				GuildController.update(message.guild, { $set: { prefix: params[0] } })
 					.then(() => {
 						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor.embed(message))
+							.setColor(Juge.util.hexColor(message))
 							.addField(':asterisk: New prefix', Juge.util.sendCode(params[0], { code: 'fix' }))
 						message.channel.send(embed);
 					})
 					.catch((error) => {
 						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor.error)
+							.setColor(Juge.util.hexColor('ERROR'))
 							.setDescription(`:x: : Oops, **${error.message}**`)
 						message.channel.send(embed);
 					});
@@ -32,19 +32,19 @@ module.exports = {
 				GuildController.update(message.guild, { $set: { prefix: '' } })
 					.then(() => {
 						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor.success)
+							.setColor(Juge.util.hexColor('SUCCESS'))
 							.setDescription(':white_check_mark: : Server prefix successfully reset!')
 						message.channel.send(embed);
 					})
 					.catch((error) => {
 						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor.error)
+							.setColor(Juge.util.hexColor('ERROR'))
 							.setDescription(`:x: : Oops, **${error.message}**`)
 						message.channel.send(embed);
 					});
 			} else {
 				const embed = new Juge.RichEmbed()
-					.setColor(Juge.util.hexColor.warning)
+					.setColor(Juge.util.hexColor('WARNING'))
 					.setDescription(':warning: : This is already a global prefix, try another one.')
 				message.channel.send(embed);
 			}
@@ -53,7 +53,7 @@ module.exports = {
 				.then((guild) => {
 					const prefixes = Juge.config.prefixes.concat(guild.prefix);
 					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor.embed(message))
+						.setColor(Juge.util.hexColor(message))
 						.addField(':globe_with_meridians: Global prefixes', Juge.util.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
 						.addField(':house: Server prefix', Juge.util.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
 						new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime() ? embed.setFooter(`Updated ${Juge.util.checkDays(guild.updatedAt) !== '0 days' ? `${Juge.util.checkDays(guild.updatedAt)} ago` : 'today'}`) : undefined;
@@ -61,7 +61,7 @@ module.exports = {
 				})
 				.catch((error) => {
 					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor.error)
+						.setColor(Juge.util.hexColor('ERROR'))
 						.setDescription(`:x: : Oops, **${error.message}**`)
 					message.channel.send(embed);
 				});

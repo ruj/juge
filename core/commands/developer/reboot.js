@@ -14,11 +14,11 @@ module.exports = {
   enabled: true,
   execute(Juge, message, params) {
     const embed = new Juge.RichEmbed()
-      .setColor(Juge.util.hexColor.embed(message))
+      .setColor(Juge.util.hexColor(message))
       .setDescription(`:no_good::skin-tone-1: : Rebooting... I'll be right back!`)
     message.channel.send(embed)
       .then(() => Juge.destroy())
       .then(() => setTimeout(() => Juge.login(process.env.JUGE_TOKEN), ms(params[0])))
-      .catch((error) => Juge.log(error.message, { tags: ['commands', 'reboot', 'error'], color: 'red' }));
+      .catch((error) => Juge.log(error.message, { tags: ['commands', 'reboot'], color: 'red' }));
   }
 };

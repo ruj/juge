@@ -17,19 +17,19 @@ module.exports = {
 			if (params.length < 1) {
 				const butts = await Butts.getButts();
 				const embed = new Juge.RichEmbed()
-					.setColor(Juge.util.hexColor.embed(message))
+					.setColor(Juge.util.hexColor(message))
 					.setImage(`http://media.obutts.ru/${butts[0].preview}`)
 				message.channel.send(embed);
 			} else if (params[0].toUpperCase() === 'NOISE') {
 				const noise = await Butts.getNoise();
 				const embed = new Juge.RichEmbed()
-					.setColor(Juge.util.hexColor.embed(message))
+					.setColor(Juge.util.hexColor(message))
 					.setImage(`http://media.obutts.ru/${noise[0].preview}`)
 				message.channel.send(embed);
 			}
 		} catch (error) {
 			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor.error)
+				.setColor(Juge.util.hexColor('ERROR'))
 				.setDescription(`:x: : Oops, **${error.message}**`)
 			message.channel.send(embed);
 		}

@@ -16,7 +16,7 @@ module.exports = {
 		let messageLatency = new Date() - initialDate;
 
 		const embed = new Juge.RichEmbed()
-			.setColor(Juge.util.hexColor.embed(message))
+			.setColor(Juge.util.hexColor(message))
 			.setDescription(`P${JugeLatency / 100 < 100 ? 'o' : 'o'.repeat(JugeLatency / 100)}ng!`)
 			.addField(':ping_pong: Message', Juge.util.sendCode(`~${Math.round(messageLatency)}ms`, { code: 'js' }), true)
 			.addField(':robot: Roboto', Juge.util.sendCode(`${Math.floor(JugeLatency)}ms`, { code: 'js' }), true)
