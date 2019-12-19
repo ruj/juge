@@ -1,7 +1,6 @@
 const Juge = new (require('./structures/Discord.js'))({
 	prefixes: process.env.PREFIXES.split(','),
-	ownerID: process.env.OWNER_ID,
-	subreddits: require('./assets/json/subreddits.json')
+	ownerID: process.env.OWNER_ID
 });
 const express = (require('express'))();
 const fs = require('fs');

@@ -15,7 +15,6 @@ module.exports = class extends Client {
 		this.cooldowns = new Collection();
 		this.RichEmbed = RichEmbed;
 		this.util = require('../util/Util.js');
-		this.Reddit = require('../util/Reddit.js');
 		this.config = config;
 	}
 
