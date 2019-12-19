@@ -23,7 +23,7 @@ module.exports = async (Juge, message) => {
 				Array(`<@${Juge.user.id}>`, `<@!${Juge.user.id}>`).find((juge) => {
 					if (message.content.startsWith(juge)) {
 						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor.embed(message))
+							.setColor(Juge.util.hexColor(message))
 							.addField(':globe_with_meridians: Global prefixes', Juge.util.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
 							.addField(':house: Server prefix', Juge.util.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
 							new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime() ? embed.setFooter(`Updated ${Juge.util.checkDays(guild.updatedAt) !== '0 days' ? `${Juge.util.checkDays(guild.updatedAt)} ago` : 'today'}`) : undefined;
@@ -48,7 +48,7 @@ module.exports = async (Juge, message) => {
 
             if (command.category === 'nsfw' && !message.channel.nsfw) {
               const embed = new Juge.RichEmbed()
-                .setColor(Juge.util.hexColor.error)
+                .setColor(Juge.util.hexColor('ERROR'))
                 .setTitle('NSFW Command')
                 .setDescription('Please switch to NSFW channel in order to use this command.')
                 .setImage('https://a.kyouko.se/m3cN.jpg')
@@ -60,7 +60,7 @@ module.exports = async (Juge, message) => {
                 .then(() => {
                   if (command.usage) {
                     const embed = new Juge.RichEmbed()
-                      .setColor(Juge.util.hexColor.embed(message))
+                      .setColor(Juge.util.hexColor(message))
                       .setTitle('Usage')
                       .setDescription(`${prefix}${command.name} ${command.usage}`);
                     message.channel.send(embed);
@@ -107,7 +107,7 @@ module.exports = async (Juge, message) => {
 			} else if (guild === null) {
 				const addGuild = await GuildController.add(message.guild);
 				const embed = new Juge.RichEmbed()
-					.setColor(Juge.util.hexColor.warning)
+					.setColor(Juge.util.hexColor('WARNING'))
 					.setDescription(':warning: : I noticed that the server information is not in my records, I am correcting now, try again later.')
 				message.channel.send(embed);
 			}
