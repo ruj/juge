@@ -12,7 +12,9 @@ module.exports = {
 
   hexColor(message) {
     if (typeof message !== 'string' && message) {
-      const hexColor = message.guild.me.displayHexColor;
+      let hexColor = message.hasOwnProperty('displayHexColor')
+      ? message.displayHexColor
+      : message.guild.me.displayHexColor;
 
       return hexColor !== '#000000' ? hexColor : '#36393F';
     } else if (message) {
