@@ -7,12 +7,12 @@ const fs = require('fs');
 
 express.listen(process.env.PORT, () => Juge.log(`Up and running on port: ${process.env.PORT}`, { tags: ['HTTP'] }));
 
-(events = module.exports.events = (dir = `${__dirname}/events/`) => {
+(listeners = module.exports.listeners = (dir = `${__dirname}/listeners/`) => {
 	fs.readdir(dir, (error, files) => {
-		if (error) return Juge.log(error.message, { tags: ['events'], color: 'red' });
+		if (error) return Juge.log(error.message, { tags: ['listeners'], color: 'red' });
 		files.forEach((file) => {
 			if (fs.lstatSync(dir + file).isDirectory()) {
-				events(dir + file + '/');
+				listeners(dir + file + '/');
 				return;
 			}
 			const event = require(dir + file);
@@ -21,7 +21,7 @@ express.listen(process.env.PORT, () => Juge.log(`Up and running on port: ${proce
 	});
 })();
 
-(commands = module.exports.events = (dir = `${__dirname}/commands/`) => {
+(commands = module.exports.commands = (dir = `${__dirname}/commands/`) => {
 	fs.readdir(dir, (error, files) => {
 		if (error) return Juge.log(error.message, { tags: ['commands'], color: 'red' });
 		files.forEach((file) => {
