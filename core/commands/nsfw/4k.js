@@ -12,7 +12,7 @@ module.exports = {
 	params: false,
 	cooldown: 5,
 	enabled: true,
-	async execute(Juge, message, params) {
-		await RandomNekoBotImage(Juge, message, this);
+	async execute(client, message, params) {
+		await RandomNekoBotImage(client, message, this);
 	}
 };

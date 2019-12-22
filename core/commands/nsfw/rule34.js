@@ -12,7 +12,7 @@ module.exports = {
 	params: true,
 	cooldown: 10,
 	enabled: true,
-	async execute(Juge, message, params) {
-		await RandomBooruPost(Juge, message, params, this);
+	async execute(client, message, params) {
+		await RandomBooruPost(client, message, params, this);
 	}
 };

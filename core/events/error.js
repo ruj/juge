@@ -1,3 +1,3 @@
-module.exports = (Juge, error) => {
-  Juge.log(error.message, { tags: ['error'], color: 'red' });
+module.exports = (client, error) => {
+  client.log(error.message, { tags: ['error'], color: 'red' });
 };

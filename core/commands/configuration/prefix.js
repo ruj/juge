@@ -12,58 +12,58 @@ module.exports = {
 	params: false,
 	cooldown: 60,
 	enabled: true,
-	execute(Juge, message, params) {
+	execute(client, message, params) {
 		if (params.length > 0) {
-			if (!Juge.config.prefixes.concat(`<@${Juge.user.id}> `).includes(params[0]) && ![ 'DELETE', 'REMOVE', 'RESET' ].includes(params[0].toUpperCase())) {
+			if (!client.config.prefixes.concat(`<@${client.user.id}> `).includes(params[0]) && ![ 'DELETE', 'REMOVE', 'RESET' ].includes(params[0].toUpperCase())) {
 				GuildController.update(message.guild, { $set: { prefix: params[0] } })
 					.then(() => {
-						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor(message))
-							.addField(':asterisk: New prefix', Juge.util.sendCode(params[0], { code: 'fix' }))
-						message.channel.send(embed);
+						message.channel.send(new client.RichEmbed()
+							.setColor(client.util.hexColor(message))
+							.addField(':asterisk: New prefix', client.util.sendCode(params[0], { code: 'fix' }))
+						);
 					})
 					.catch((error) => {
-						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor('ERROR'))
+						message.channel.send(new client.RichEmbed()
+							.setColor(client.util.hexColor('ERROR'))
 							.setDescription(`:x: : Oops, **${error.message}**`)
-						message.channel.send(embed);
+						);
 					});
 			} else if ([ 'DELETE', 'REMOVE', 'RESET' ].includes(params[0].toUpperCase())) {
 				GuildController.update(message.guild, { $set: { prefix: '' } })
 					.then(() => {
-						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor('SUCCESS'))
+						message.channel.send(new client.RichEmbed()
+							.setColor(client.util.hexColor('SUCCESS'))
 							.setDescription(':white_check_mark: : Server prefix successfully reset!')
-						message.channel.send(embed);
+						);
 					})
 					.catch((error) => {
-						const embed = new Juge.RichEmbed()
-							.setColor(Juge.util.hexColor('ERROR'))
+						message.channel.send(new client.RichEmbed()
+							.setColor(client.util.hexColor('ERROR'))
 							.setDescription(`:x: : Oops, **${error.message}**`)
-						message.channel.send(embed);
+						);
 					});
 			} else {
-				const embed = new Juge.RichEmbed()
-					.setColor(Juge.util.hexColor('WARNING'))
+				message.channel.send(new client.RichEmbed()
+					.setColor(client.util.hexColor('WARNING'))
 					.setDescription(':warning: : This is already a global prefix, try another one.')
-				message.channel.send(embed);
+				);
 			}
 		} else {
 			GuildController.findOne(message.guild)
 				.then((guild) => {
-					const prefixes = Juge.config.prefixes.concat(guild.prefix);
-					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor(message))
-						.addField(':globe_with_meridians: Global prefixes', Juge.util.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
-						.addField(':house: Server prefix', Juge.util.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
-						new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime() ? embed.setFooter(`Updated ${Juge.util.checkDays(guild.updatedAt) !== '0 days' ? `${Juge.util.checkDays(guild.updatedAt)} ago` : 'today'}`) : undefined;
+					const prefixes = client.config.prefixes.concat(guild.prefix);
+					const embed = new client.RichEmbed()
+						.setColor(client.util.hexColor(message))
+						.addField(':globe_with_meridians: Global prefixes', client.util.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
+						.addField(':house: Server prefix', client.util.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
+						new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime() ? embed.setFooter(`Updated ${client.util.checkDays(guild.updatedAt) !== '0 days' ? `${client.util.checkDays(guild.updatedAt)} ago` : 'today'}`) : undefined;
 					message.channel.send(embed);
 				})
 				.catch((error) => {
-					const embed = new Juge.RichEmbed()
-						.setColor(Juge.util.hexColor('ERROR'))
+					message.channel.send(new client.RichEmbed()
+						.setColor(client.util.hexColor('ERROR'))
 						.setDescription(`:x: : Oops, **${error.message}**`)
-					message.channel.send(embed);
+					);
 				});
 		}
 	}

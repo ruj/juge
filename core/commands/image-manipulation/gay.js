@@ -13,7 +13,7 @@ module.exports = {
 	params: false,
 	cooldown: 10,
 	enabled: true,
-	async execute(Juge, message, params) {
+	async execute(client, message, params) {
 		try {
 			message.channel.startTyping();
 			const avatar = message.mentions.users.size ? message.mentions.users.first().displayAvatarURL : message.author.displayAvatarURL;
@@ -23,10 +23,10 @@ module.exports = {
 			image.composite(filter, 0, 0);
 			await message.channel.send({ files: [{ attachment: await image.getBufferAsync(Jimp.MIME_PNG), name: 'gay.png' }] }).then(message.channel.stopTyping());
 		} catch (error) {
-			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor('ERROR'))
+			message.channel.send(new client.RichEmbed()
+				.setColor(client.util.hexColor('ERROR'))
 				.setDescription(`:x: : Oops, **${error.message}**`)
-			message.channel.send(embed).then(message.channel.stopTyping());
+			).then(message.channel.stopTyping());
 		}
 	}
 };

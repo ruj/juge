@@ -10,10 +10,10 @@ module.exports = {
   params: false,
   cooldown: 0,
   enabled: true,
-  execute(Juge, message, params) {
-    const embed = new Juge.RichEmbed()
-      .setColor(Juge.util.hexColor(message))
-      .setDescription(`:clock4: : ${Juge.util.uptime(Juge.uptime)}`)
-    message.channel.send(embed);
+  execute(client, message, params) {
+    message.channel.send(new client.RichEmbed()
+      .setColor(client.util.hexColor(message))
+      .setDescription(`:clock4: : ${client.util.uptime(client.uptime)}`)
+    );
   }
 };

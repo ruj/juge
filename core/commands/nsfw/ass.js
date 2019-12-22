@@ -12,26 +12,28 @@ module.exports = {
 	params: false,
 	cooldown: 5,
 	enabled: true,
-	async execute(Juge, message, params) {
+	async execute(client, message, params) {
 		try {
 			if (params.length < 1) {
 				const butts = await Butts.getButts();
-				const embed = new Juge.RichEmbed()
-					.setColor(Juge.util.hexColor(message))
+
+				message.channel.send(new client.RichEmbed()
+					.setColor(client.util.hexColor(message))
 					.setImage(`http://media.obutts.ru/${butts[0].preview}`)
-				message.channel.send(embed);
+				);
 			} else if (params[0].toUpperCase() === 'NOISE') {
 				const noise = await Butts.getNoise();
-				const embed = new Juge.RichEmbed()
-					.setColor(Juge.util.hexColor(message))
+
+				message.channel.send(new client.RichEmbed()
+					.setColor(client.util.hexColor(message))
 					.setImage(`http://media.obutts.ru/${noise[0].preview}`)
-				message.channel.send(embed);
+				);
 			}
 		} catch (error) {
-			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor('ERROR'))
+			message.channel.send(new client.RichEmbed()
+				.setColor(client.util.hexColor('ERROR'))
 				.setDescription(`:x: : Oops, **${error.message}**`)
-			message.channel.send(embed);
+			);
 		}
 	}
 };

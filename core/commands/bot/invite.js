@@ -1,7 +1,6 @@
 const invitationPhrases = require('../../assets/json/invitation_phrases.json');
 
-const PERMISSIONS = '59472';
-const INVITE_LINK = `https://discordapp.com/oauth2/authorize?client_id={{JUGE_ID}}&permissions=${PERMISSIONS}&scope=bot`;
+const INVITE_LINK = `https://discordapp.com/oauth2/authorize?client_id={{JUGE_ID}}&permissions=${process.env.JUGE_PERMISSIONS}&scope=bot`;
 
 module.exports = {
 	name: 'invite',
@@ -15,11 +14,13 @@ module.exports = {
 	params: false,
 	cooldown: 0,
 	enabled: true,
-	execute(Juge, message, params) {
-		const invite = Juge.util.randomItem(invitationPhrases).replace('{{INVITE_LINK}}', INVITE_LINK).replace('{{JUGE_ID}}', Juge.user.id);
-		const embed = new Juge.RichEmbed()
-			.setColor(Juge.util.hexColor(message))
-			.setDescription(invite)
-		message.channel.send(embed);
+	execute(client, message, params) {
+		message.channel.send(new client.RichEmbed()
+			.setColor(client.util.hexColor(message))
+			.setDescription(client.util.randomItem(invitationPhrases)
+				.replace('{{INVITE_LINK}}', INVITE_LINK)
+				.replace('{{JUGE_ID}}', client.user.id)
+			)
+		);
 	}
 };

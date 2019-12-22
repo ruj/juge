@@ -14,19 +14,20 @@ module.exports = {
 	params: false,
 	cooldown: 5,
 	enabled: true,
-	async execute(Juge, message, params) {
+	async execute(client, message, params) {
 		try {
 			const response = await fetch(`${BASE_URL}/i/r?nsfw=true`);
 			const body = await response.json();
-			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor(message))
+
+			message.channel.send(new client.RichEmbed()
+				.setColor(client.util.hexColor(message))
 				.setImage(`${BASE_URL}${body.path}`)
-			message.channel.send(embed);
+			);
 		} catch (error) {
-			const embed = new Juge.RichEmbed()
-				.setColor(Juge.util.hexColor('ERROR'))
+			message.channel.send(new client.RichEmbed()
+				.setColor(client.util.hexColor('ERROR'))
 				.setDescription(`:x: : Oops, **${error.message}**`)
-			message.channel.send(embed);
+			);
 		}
 	}
 };

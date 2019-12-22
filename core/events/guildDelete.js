@@ -1,7 +1,7 @@
 const { GuildController } = require('../database/controllers');
 
-module.exports = (Juge, guild) => {
+module.exports = (client, guild) => {
 	GuildController.remove(guild)
-		.then(() => Juge.log(`${guild.name} (${guild.id})`, { tags: ['guildDelete'], color: 'green' }))
-		.catch((error) => Juge.log(error.message, { tags: ['guildDelete'], color: 'red' }));
+		.then(() => client.log(`${guild.name} (${guild.id})`, { tags: ['guildDelete'], color: 'green' }))
+		.catch((error) => client.log(error.message, { tags: ['guildDelete'], color: 'red' }));
 };
