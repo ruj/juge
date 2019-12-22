@@ -10,6 +10,4 @@ module.exports = ({ log }) => {
 
 	Mongo.on('open', () => log('Database connected', { tags: ['Mongo'], color: 'cyan' }));
 	Mongo.on('error', (error) => log(error.message, { tags: ['Mongo'], color: 'red' }));
-
-	return Mongo;
 };
