@@ -2,10 +2,7 @@ const Juge = new (require('./structures/Discord.js'))({
 	prefixes: process.env.PREFIXES.split(','),
 	ownerID: process.env.OWNER_ID
 });
-const express = (require('express'))();
 const fs = require('fs');
-
-express.listen(process.env.PORT, () => Juge.log(`Up and running on port: ${process.env.PORT}`, { tags: ['HTTP'] }));
 
 (listeners = module.exports.listeners = (dir = `${__dirname}/listeners/`) => {
 	fs.readdir(dir, (error, files) => {
