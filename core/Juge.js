@@ -1,4 +1,4 @@
-const Juge = new (require('./structures/Discord.js'))({
+const Juge = new (require('./structures/Client.js'))({
 	prefixes: process.env.PREFIXES.split(','),
 	ownerID: process.env.OWNER_ID
 });
