@@ -37,5 +37,10 @@ express.listen(process.env.PORT, () => Juge.log(`Up and running on port: ${proce
 	});
 })();
 
-require('./structures/Mongo.js')(Juge);
+((Loaders) => {
+	for (let name in Loaders) {
+		Loaders[name](Juge);
+	}
+})(require('./loaders'));
+
 Juge.login(process.env.JUGE_TOKEN).catch(console.error);
