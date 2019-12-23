@@ -36,7 +36,7 @@ const fs = require('fs');
 
 ((Loaders) => {
 	for (let name in Loaders) {
-		Loaders[name](Juge);
+		Loaders[name].load(Juge);
 	}
 })(require('./loaders'));
 
