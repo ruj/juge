@@ -1,9 +1,10 @@
 const Booru = require('booru');
+const boorus = require('../../assets/json/booru_sites.json');
 
 module.exports = async (client, { content, channel, guild: { me } }, params, { name }) => {
   if (!content.toUpperCase().includes('LOLI', 'GORE')) {
     try {
-      const posts = await Booru.search(name, [ params.join('_') ], { limit: 1, random: true });
+      const posts = await Booru.search(boorus[name], [ params.join('_') ], { random: true });
 
       if (posts.length) {
         channel.send(new client.RichEmbed()
