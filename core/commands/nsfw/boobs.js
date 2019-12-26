@@ -1,5 +1,7 @@
 const Boobs = require('../../apis/OpenBoobs.js');
 
+const BASE_URL = 'http://media.oboobs.ru';
+
 module.exports = {
 	name: 'boobs',
 	aliases: ['boobies', 'bobs'],
@@ -19,14 +21,14 @@ module.exports = {
 
 				message.channel.send(new client.RichEmbed()
 					.setColor(client.util.hexColor(message))
-					.setImage(`http://media.oboobs.ru/${boobs[0].preview}`)
+					.setImage(`${BASE_URL}/${boobs[0].preview}`)
 				);
 			} else if (params[0].toUpperCase() === 'NOISE') {
 				const noise = await Boobs.getNoise();
 
 				message.channel.send(new client.RichEmbed()
 					.setColor(client.util.hexColor(message))
-					.setImage(`http://media.oboobs.ru/${noise[0].preview}`)
+					.setImage(`${BASE_URL}/${noise[0].preview}`)
 				);
 			}
 		} catch (error) {

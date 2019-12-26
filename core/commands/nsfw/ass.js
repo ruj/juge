@@ -1,5 +1,7 @@
 const Butts = require('../../apis/OpenButts.js');
 
+const BASE_URL = 'http://media.obutts.ru';
+
 module.exports = {
 	name: 'ass',
 	aliases: ['butt', 'booty', 'butts'],
@@ -19,14 +21,14 @@ module.exports = {
 
 				message.channel.send(new client.RichEmbed()
 					.setColor(client.util.hexColor(message))
-					.setImage(`http://media.obutts.ru/${butts[0].preview}`)
+					.setImage(`${BASE_URL}/${butts[0].preview}`)
 				);
 			} else if (params[0].toUpperCase() === 'NOISE') {
 				const noise = await Butts.getNoise();
 
 				message.channel.send(new client.RichEmbed()
 					.setColor(client.util.hexColor(message))
-					.setImage(`http://media.obutts.ru/${noise[0].preview}`)
+					.setImage(`${BASE_URL}/${noise[0].preview}`)
 				);
 			}
 		} catch (error) {
