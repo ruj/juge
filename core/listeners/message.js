@@ -1,19 +1,7 @@
 const { CommandController, GuildController } = require('../database/controllers');
 
 module.exports = async (client, message) => {
-	client.elevation = (message) => {
-		let level = 0;
-
-		if (message.member.permissions.has('MANAGE_CHANNELS')) level = 5;
-		if (message.member.permissions.has('MANAGE_GUILD')) level = 6;
-		if (message.member.permissions.has('ADMINISTRATOR')) level = 7;
-
-		if (message.author.id === client.config.ownerID) level = 9;
-
-		return level;
-	};
-
-	if (message.channel.type !== 'dm') {
+	if (!message.author.bot && message.channel.type !== 'dm') {
 		try {
 			const guild = await GuildController.findOne(message.guild);
 
@@ -33,8 +21,6 @@ module.exports = async (client, message) => {
 
 				prefixes.filter(async (prefix) => {
           if (message.content.startsWith(prefix)) {
-            if (message.author.bot) return;
-
             const params = message.content.slice(prefix.length).split(/ +/);
             const commandName = params.shift().toLowerCase();
             const command = client.commands.get(commandName) || client.commands.find((command) => command.aliases && command.aliases.includes(commandName));
