@@ -5,7 +5,7 @@ module.exports = {
 	aliases: ['prefixes', 'setprefix', 'newprefix'],
 	permissions: ['EMBED_LINKS'],
 	permissionLevel: 6,
-	description: 'Add/Update/Remove server prefix',
+	description: 'Management the server prefix',
 	usage: '<new prefix|(delete|remove|reset)>',
 	category: 'configuration',
 	guildOnly: false,
