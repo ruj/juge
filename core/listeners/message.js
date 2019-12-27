@@ -8,8 +8,8 @@ module.exports = async (client, message) => {
 			if (guild !== null) {
 				let prefixes = client.config.prefixes.concat(guild.prefix);
 
-				Array(`<@${client.user.id}>`, `<@!${client.user.id}>`).find((client) => {
-					if (message.content.startsWith(client)) {
+				Array(`<@${client.user.id}>`, `<@!${client.user.id}>`).find((mention) => {
+					if (message.content.startsWith(mention)) {
 						const embed = new client.RichEmbed()
 							.setColor(client.util.hexColor(message))
 							.addField(':globe_with_meridians: Global prefixes', client.util.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
