@@ -1,9 +1,9 @@
 module.exports = {
-	checkDays(date) {
+	days(date, { extended = true } = {}) {
 		let difference = new Date().getTime() - new Date(date).getTime();
 		let days = Math.floor(difference / 86400000);
 
-		return `${days} ${days == 1 ? 'day' : 'days'}`;
+		return extended ? `${days} ${days == 1 ? 'day' : 'days'}` : days;
 	},
 
 	difference(left, right) {

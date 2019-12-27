@@ -56,7 +56,7 @@ module.exports = {
 						.setColor(client.util.hexColor(message))
 						.addField(':globe_with_meridians: Global prefixes', client.util.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
 						.addField(':house: Server prefix', client.util.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
-						new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime() ? embed.setFooter(`Updated ${client.util.checkDays(guild.updatedAt) !== '0 days' ? `${client.util.checkDays(guild.updatedAt)} ago` : 'today'}`) : undefined;
+						new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime() ? embed.setFooter(`Updated ${client.util.days(guild.updatedAt, { extended: false }) > 0 ? `${client.util.days(guild.updatedAt)} ago` : 'today'}`) : undefined;
 					message.channel.send(embed);
 				})
 				.catch((error) => {
