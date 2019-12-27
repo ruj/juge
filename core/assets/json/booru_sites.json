@@ -1,3 +1,14 @@
 {
-  "rule34": "rule34.xxx"
+  "danbooru": "danbooru.donmai.us",
+  "derpibooru": "derpibooru.org",
+  "e621": "e621.net",
+  "furry": "furry.booru.org",
+  "gelbooru": "gelbooru.com",
+  "hypnohub": "hypnohub.net",
+  "konachan": "konachan.com",
+  "paheal": "rule34.paheal.net",
+  "realbooru": "realbooru.com",
+  "rule34": "rule34.xxx",
+  "xbooru": "xbooru.com",
+  "yandere": "yande.re"
 }
