@@ -47,8 +47,7 @@ module.exports = async (client, message) => {
                   if (command.usage) {
                     message.channel.send(new client.RichEmbed()
                       .setColor(client.util.hexColor(message))
-                      .setTitle('Usage')
-                      .setDescription(`${prefix}${command.name} ${command.usage}`)
+                      .addField(':page_facing_up: Usage', client.util.sendCode(`${prefix}${command.name} ${command.usage}`, { code: 'fix' }))
                     );
                   }
                 });
