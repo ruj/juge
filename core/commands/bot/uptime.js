@@ -1,6 +1,7 @@
 const { readFileSync } = require('fs');
 const moment = require('moment');
 require('moment-duration-format');
+const _ = require('lodash');
 
 module.exports = {
   name: 'uptime',
@@ -15,19 +16,28 @@ module.exports = {
   cooldown: 0,
   enabled: true,
   execute(client, message, params) {
-    const uptime = process.env.NODE_ENV ? parseFloat(readFileSync('/proc/uptime', { encoding: 'utf-8' }).split(' ')[0] * 1E3) : undefined;
-    const duration = moment.duration(uptime);
+    let uptime = {
+      process: client.util.uptime(process.uptime() * 1E3),
+      shard: client.util.uptime(client.uptime)
+    };
 
-    let serverUptime;
-    if (duration.days() < 1) serverUptime = client.util.uptime(uptime);
-    else if (duration.days() == 1) serverUptime = duration.format('D [day]');
-    else if (duration.days() < 10) serverUptime = duration.format('D [days]');
-    else if (duration.days() >= 10) serverUptime = duration.format('DD [days]');
+    if (process.env.NODE_ENV) {
+      const proc = parseFloat(readFileSync('/proc/uptime', { encoding: 'utf-8' }).split(' ')[0] * 1E3);
+      const duration = moment.duration(proc);
+
+      if (duration.days() < 1) _.assign(uptime, { server: client.util.uptime(proc) });
+      else if (duration.days() == 1) _.assign(uptime, { server: duration.format('D [day]') });
+      else if (duration.days() < 10) _.assign(uptime, { server: duration.format('D [days]') });
+      else if (duration.days() >= 10) _.assign(uptime, { server: duration.format('DD [days]') });
+    } else {
+      _.assign(uptime, { server: 'Not in production' });
+    }
 
     message.channel.send(new client.RichEmbed()
       .setColor(client.util.hexColor(message))
-      .addField(':clock4: Process', client.util.sendCode(client.util.uptime(client.uptime), { code: 'xl' }))
-      .addField(':desktop: Server', client.util.sendCode(!serverUptime.startsWith('NaN') ? serverUptime : ' ', { code: 'xl' }))
+      .addField(':clock4: Process', client.util.sendCode(uptime.process, { code: 'xl' }))
+      .addField(':large_blue_diamond: Shard', client.util.sendCode(uptime.shard, { code: 'xl' }))
+      .addField(':desktop: Server', client.util.sendCode(uptime.server, { code: 'xl' }))
     );
   }
 };
