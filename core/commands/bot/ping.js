@@ -15,12 +15,12 @@ module.exports = {
 		let JugeLatency = new Date() - message.createdAt;
 		let messageLatency = new Date() - initialDate;
 
-		const embed = new client.RichEmbed()
+		message.channel.send(new client.RichEmbed()
 			.setColor(client.util.hexColor(message))
 			.setDescription(`P${JugeLatency / 100 < 100 ? 'o' : 'o'.repeat(JugeLatency / 100)}ng!`)
 			.addField(':ping_pong: Message', client.util.sendCode(`~${Math.round(messageLatency)}ms`, { code: 'js' }), true)
 			.addField(':robot: Roboto', client.util.sendCode(`${Math.floor(JugeLatency)}ms`, { code: 'js' }), true)
 			.addField(':satellite: API', client.util.sendCode(`${Math.floor(client.ping)}ms`, { code: 'js' }), false)
-		message.channel.send(embed);
+		);
 	}
 };
