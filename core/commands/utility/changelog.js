@@ -33,7 +33,7 @@ module.exports = {
 
       commits.map(({ sha, commit, html_url, committer }) => embed.addField(sha.slice(0, 7), [
         `[\`${commit.message}\`](${html_url}) (${client.util.days(commit.committer.date, { extended: false }) > 1 ? `${client.util.days(commit.committer.date)} ago` : 'Today'})`,
-        `**Committer**: [${committer.login}](https://github.com/${committer.html_url})`
+        `**Committer**: [${committer.login}](${committer.html_url})`
       ].join('\n')));
 
     message.channel.send(embed);
