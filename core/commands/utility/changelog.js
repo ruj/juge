@@ -1,11 +1,5 @@
-const fetch = require('node-fetch');
-const { CryptoUtil: { base64 } } = require('../../');
-const {
-  GITHUB_USERNAME,
-  GITHUB_PASSWORD,
-  JUGE_REPO_USERNAME,
-  JUGE_REPO_NAME
-} = process.env;
+const GitHub = require('../../apis/GitHub.js');
+const { JUGE_REPO_USERNAME, JUGE_REPO_NAME } = process.env;
 
 module.exports = {
   name: 'changelog',
@@ -20,11 +14,7 @@ module.exports = {
   cooldown: 60,
   enabled: true,
   async execute(client, message, params) {
-    const response = await fetch(`https://api.github.com/repos/${JUGE_REPO_USERNAME}/${JUGE_REPO_NAME}/commits`, {
-      Authorization: `Basic ${base64(`${GITHUB_USERNAME}:${GITHUB_PASSWORD}`)}`
-    });
-    const body = await response.json();
-    const commits = body.slice(0, 10);
+    const commits = (await GitHub.getRepository(JUGE_REPO_USERNAME, JUGE_REPO_NAME, 'commits')).slice(0, 10);
 
     const embed = new client.RichEmbed()
       .setColor(client.util.hexColor(message))
