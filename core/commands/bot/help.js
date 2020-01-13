@@ -1,15 +1,10 @@
 module.exports = {
   name: 'help',
   aliases: ['h'],
-  permissions: ['EMBED_LINKS'],
-  permissionLevel: 0,
   description: 'Shows details about a command',
   usage: '<command>',
   category: 'bot',
-  guildOnly: false,
-  params: false,
-  cooldown: 5,
-  enabled: true,
+  requirements: { botPermissions: ['EMBED_LINKS'] },
   execute(client, message, params) {
     let [ command ] = params;
     command = command.toLowerCase();

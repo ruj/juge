@@ -6,15 +6,10 @@ const _ = require('lodash');
 module.exports = {
   name: 'uptime',
   aliases: ['up'],
-  permissions: ['EMBED_LINKS'],
-  permissionLevel: 0,
   description: 'Time the client and server is awake',
-  usage: '',
   category: 'bot',
-  guildOnly: false,
-  params: false,
-  cooldown: 0,
-  enabled: true,
+  requirements: { botPermissions: ['EMBED_LINKS'] },
+  cooldown: 5,
   execute(client, message, params) {
     let uptime = {
       process: client.util.uptime(process.uptime() * 1E3),

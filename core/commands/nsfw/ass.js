@@ -5,15 +5,10 @@ const BASE_URL = 'http://media.obutts.ru';
 module.exports = {
 	name: 'ass',
 	aliases: ['butt', 'booty', 'butts'],
-	permissions: ['EMBED_LINKS'],
-	permissionLevel: 0,
 	description: 'Butt images',
 	usage: '<noise>',
 	category: 'nsfw',
-	guildOnly: false,
-	params: false,
-	cooldown: 5,
-	enabled: true,
+	requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
 	async execute(client, message, params) {
 		try {
 			if (params.length < 1) {

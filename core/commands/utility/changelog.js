@@ -4,15 +4,10 @@ const { JUGE_REPO_USERNAME, JUGE_REPO_NAME } = process.env;
 module.exports = {
   name: 'changelog',
   aliases: ['updates', 'commits'],
-  permissions: ['EMBED_LINKS'],
-  permissionLevel: 0,
   description: 'Latest commits to bot repository',
-  usage: '',
   category: 'utility',
-  guildOnly: false,
-  params: false,
+  requirements: { botPermissions: ['EMBED_LINKS'] },
   cooldown: 60,
-  enabled: true,
   async execute(client, message, params) {
     const commits = (await GitHub.getRepository(JUGE_REPO_USERNAME, JUGE_REPO_NAME, 'commits')).slice(0, 10);
 

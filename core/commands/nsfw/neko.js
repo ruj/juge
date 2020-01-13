@@ -3,15 +3,9 @@ const { RandomNekoDotLifeImage } = require('../../');
 module.exports = {
 	name: 'neko',
 	aliases: ['nekos', 'catgirl'],
-	permissions: ['EMBED_LINKS'],
-	permissionLevel: 0,
 	description: 'Nekos!',
-	usage: '',
 	category: 'nsfw',
-	guildOnly: false,
-	params: false,
-	cooldown: 5,
-	enabled: true,
+	requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
 	async execute(client, message, params) {
 		await RandomNekoDotLifeImage(client, message, this);
 	}

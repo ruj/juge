@@ -16,7 +16,6 @@ module.exports = async (client, message) => {
 							.addField(':house: Server prefix', client.util.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
 
               if (new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime()) embed.setFooter(`Updated ${client.util.days(guild.updatedAt, { extended: false }) > 0 ? `${client.util.days(guild.updatedAt)} ago` : 'today'}`);
-
             message.channel.send(embed);
 					}
 				});
@@ -26,37 +25,46 @@ module.exports = async (client, message) => {
             const params = message.content.slice(prefix.length).split(/ +/);
             const commandName = params.shift().toLowerCase();
             const command = client.commands.get(commandName) || client.commands.find((command) => command.aliases && command.aliases.includes(commandName));
-            const permission = client.elevation(message);
 
             if (!command) return;
-            if (!message.guild.me.permissions.toArray().includes(command.permissions)) {
-              const reqPermissions = client.util.difference(command.permissions, message.guild.me.permissions.toArray());
-              if (reqPermissions.length > 0) return message.reply(`for this command to work I need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
-            }
+            if (command.hasOwnProperty('requirements')) {
+              if (command.requirements.hasOwnProperty('devOnly') && message.author.id !== client.config.ownerID) return;
 
-            if (command.category === 'nsfw' && !message.channel.nsfw) {
-              return message.channel.send(new client.RichEmbed()
-                .setColor(client.util.hexColor('ERROR'))
-                .setTitle('NSFW Command')
-                .setDescription('Please switch to NSFW channel in order to use this command.')
-                .setImage('https://a.kyouko.se/m3cN.jpg')
-              );
-            }
+              if (command.requirements.hasOwnProperty('nsfwOnly') && !message.channel.nsfw) {
+                return message.channel.send(new client.RichEmbed()
+                  .setColor(client.util.hexColor('ERROR'))
+                  .setTitle('NSFW Command')
+                  .setDescription('Please switch to NSFW channel in order to use this command.')
+                  .setImage('https://a.kyouko.se/m3cN.jpg')
+                );
+              }
 
-            if (command.params && !params.length) {
-              return message.reply('you did not provide any parameters.')
-                .then(() => {
-                  if (command.usage) {
-                    message.channel.send(new client.RichEmbed()
-                      .setColor(client.util.hexColor(message))
-                      .addField(':page_facing_up: Usage', client.util.sendCode(`${prefix}${command.name} ${command.usage}`, { code: 'fix' }))
-                    );
-                  }
-                });
-            }
+              if (command.requirements.hasOwnProperty('parameters') && !params.length) {
+                return message.reply('you did not provide any parameters.')
+                  .then(() => {
+                    if (command.hasOwnProperty('usage')) {
+                      message.channel.send(new client.RichEmbed()
+                        .setColor(client.util.hexColor(message))
+                        .addField(':page_facing_up: Usage', client.util.sendCode(`${prefix}${command.name} ${command.usage}`, { code: 'fix' }))
+                      );
+                    }
+                  });
+              }
 
-            if (permission < command.permissionLevel) return;
-            if (message.author.id !== client.config.ownerID && !command.enabled) return message.reply('sorry the command has been \`Disabled\`.');
+              if (command.requirements.hasOwnProperty('botPermissions')) {
+                if (!message.guild.me.permissions.toArray().includes(command.requirements.botPermissions)) {
+                  const reqPermissions = client.util.difference(command.requirements.botPermissions, message.guild.me.permissions.toArray());
+                  if (reqPermissions.length) return message.reply(`for this command to work I need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
+                }
+              }
+
+              if (command.requirements.hasOwnProperty('permissions')) {
+                if (!message.member.permissions.toArray().includes(command.requirements.permissions)) {
+                  const reqPermissions = client.util.difference(command.requirements.permissions, message.member.permissions.toArray());
+                  if (reqPermissions.length) return message.reply(`to use this command, you need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
+                }
+              }
+            }
 
             if (!client.cooldowns.has(command.name)) {
               client.cooldowns.set(command.name, new (require('discord.js')).Collection());
@@ -64,7 +72,7 @@ module.exports = async (client, message) => {
 
             const now = Date.now();
             const timestamps = client.cooldowns.get(command.name);
-            const cooldownAmount = (command.cooldown || 3) * 1E3;
+            const cooldownAmount = (command.hasOwnProperty('cooldown') ? command.cooldown : 5) * 1E3;
 
             if (timestamps.has(message.author.id)) {
               const expirationTime = timestamps.get(message.author.id) + cooldownAmount;

@@ -3,15 +3,11 @@ const { GuildController } = require('../../database/controllers');
 module.exports = {
 	name: 'prefix',
 	aliases: ['prefixes', 'setprefix', 'newprefix'],
-	permissions: ['EMBED_LINKS'],
-	permissionLevel: 6,
 	description: 'Management the server prefix',
 	usage: '<new prefix|(delete|remove|reset)>',
 	category: 'configuration',
-	guildOnly: false,
-	params: false,
+	requirements: { botPermissions: ['EMBED_LINKS'], permissions: ['MANAGE_GUILD'] },
 	cooldown: 60,
-	enabled: true,
 	execute(client, message, params) {
 		if (params.length > 0) {
 			if (!client.config.prefixes.concat(`<@${client.user.id}> `).includes(params[0]) && ![ 'DELETE', 'REMOVE', 'RESET' ].includes(params[0].toUpperCase())) {

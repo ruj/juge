@@ -1,15 +1,14 @@
 module.exports = {
 	name: 'toggle',
 	aliases: ['togglensfw', 'setnsfw'],
-	permissions: ['MANAGE_CHANNELS', 'EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES'],
-	permissionLevel: 5,
 	description: 'Enables or disables NSFW of the current channel',
 	usage: '<(true|enable)|(false|disable)>',
 	category: 'configuration',
-	guildOnly: true,
-	params: false,
+	requirements: {
+		botPermissions: ['MANAGE_CHANNELS', 'EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES'],
+		permissions: ['MANAGE_CHANNELS']
+	},
 	cooldown: 30,
-	enabled: true,
 	async execute(client, message, params) {
 		if (params.length && [ 'TRUE', 'ENABLE' ].includes(params[0].toUpperCase()) && !message.channel.nsfw) {
 			message.channel.setNSFW(true)

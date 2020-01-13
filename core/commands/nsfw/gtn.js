@@ -5,15 +5,9 @@ const BASE_URL = 'https://rra.ram.moe';
 module.exports = {
 	name: 'gtn',
 	aliases: ['comics'],
-	permissions: ['EMBED_LINKS'],
-	permissionLevel: 0,
 	description: 'GreenTeaNeko comics',
-	usage: '',
 	category: 'nsfw',
-	guildOnly: false,
-	params: false,
-	cooldown: 5,
-	enabled: true,
+	requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
 	async execute(client, message, params) {
 		try {
 			const response = await fetch(`${BASE_URL}/i/r?nsfw=true`);

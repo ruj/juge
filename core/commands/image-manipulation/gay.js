@@ -4,15 +4,11 @@ const Jimp = require('jimp');
 module.exports = {
 	name: 'gay',
 	aliases: ['gai', 'rainbow'],
-	permissions: ['EMBED_LINKS', 'ATTACH_FILES'],
-	permissionLevel: 0,
 	description: 'Generates avatar photo with rainbow filter',
 	usage: '<user>',
 	category: 'images',
-	guildOnly: false,
-	params: false,
+	requirements: { botPermissions: ['EMBED_LINKS', 'ATTACH_FILES'] },
 	cooldown: 10,
-	enabled: true,
 	async execute(client, message, params) {
 		try {
 			message.channel.startTyping();

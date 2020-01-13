@@ -3,15 +3,9 @@ const { RandomRedditPost } = require('../../');
 module.exports = {
   name: 'bbw',
   aliases: [],
-  permissions: ['EMBED_LINKS'],
-  permissionLevel: 0,
   description: 'Big Beautiful Woman',
-  usage: '',
   category: 'nsfw',
-  guildOnly: false,
-  params: false,
-  cooldown: 5,
-  enabled: true,
+  requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
   async execute(client, message, params) {
     await RandomRedditPost(client, message, this);
   }

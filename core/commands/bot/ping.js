@@ -1,15 +1,10 @@
 module.exports = {
 	name: 'ping',
 	aliases: ['latency'],
-	permissions: ['EMBED_LINKS'],
-	permissionLevel: 0,
 	description: 'Latency time',
-	usage: '',
 	category: 'bot',
-	guildOnly: false,
-	params: false,
+	requirements: { botPermissions: ['EMBED_LINKS'] },
 	cooldown: 5,
-	enabled: true,
 	execute(client, message, params) {
 		let initialDate = new Date();
 		let JugeLatency = new Date() - message.createdAt;

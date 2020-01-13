@@ -3,15 +3,10 @@ const ms = require('ms');
 module.exports = {
   name: 'reboot',
   aliases: ['restart'],
-  permissions: ['EMBED_LINKS'],
-  permissionLevel: 9,
   description: 'Client reboot',
   usage: '[interval]',
   category: 'developer',
-  guildOnly: false,
-  params: true,
-  cooldown: 0,
-  enabled: true,
+  requirements: { devOnly: true, parameters: true, botPermissions: ['EMBED_LINKS'] },
   execute(client, message, params) {
     message.channel.send(new client.RichEmbed()
       .setColor(client.util.hexColor(message))

@@ -4,15 +4,11 @@ const Jimp = require('jimp');
 module.exports = {
   name: 'cuck',
   aliases: [],
-  permissions: ['EMBED_LINKS', 'ATTACH_FILES'],
-  permissionLevel: 0,
   description: '',
   usage: '<user>',
   category: 'memes',
-  guildOnly: false,
-  params: false,
+  requirements: { botPermissions: ['EMBED_LINKS', 'ATTACH_FILES'] },
   cooldown: 10,
-  enabled: true,
   async execute(client, message, params) {
     try {
       message.channel.startTyping();
