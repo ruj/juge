@@ -1,9 +1,9 @@
-const { CommandController, GuildController } = require('../database/controllers');
+const { CommandRepository, GuildRepository } = require('../database/repositories');
 
 module.exports = async (client, message) => {
 	if (!message.author.bot && message.channel.type !== 'dm') {
 		try {
-			const guild = await GuildController.findOne(message.guild);
+			const guild = await GuildRepository.findOne(message.guild);
 
 			if (guild !== null) {
 				let prefixes = client.config.prefixes.concat(guild.prefix);
@@ -86,11 +86,11 @@ module.exports = async (client, message) => {
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
             try {
-              const commandExists = await CommandController.findOne(command.name);
+              const commandExists = await CommandRepository.findOne(command.name);
               if (commandExists) {
-                await CommandController.update(command.name, { $set: { count: commandExists.count + 1 } });
+                await CommandRepository.update(command.name, { $set: { count: commandExists.count + 1 } });
               } else {
-                await CommandController.add(command);
+                await CommandRepository.add(command);
               }
 
               command.execute(client, message, params);
@@ -100,7 +100,7 @@ module.exports = async (client, message) => {
           }
 				});
 			} else if (guild === null) {
-				const addGuild = await GuildController.add(message.guild);
+				const addGuild = await GuildRepository.add(message.guild);
 				message.channel.send(new client.RichEmbed()
           .setColor(client.util.hexColor('WARNING'))
           .setDescription(':warning: : I noticed that the server information is not in my records, I am correcting now, try again later.')

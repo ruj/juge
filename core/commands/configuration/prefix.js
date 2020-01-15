@@ -1,4 +1,4 @@
-const { GuildController } = require('../../database/controllers');
+const { GuildRepository } = require('../../database/repositories');
 
 module.exports = {
 	name: 'prefix',
@@ -11,7 +11,7 @@ module.exports = {
 	execute(client, message, params) {
 		if (params.length > 0) {
 			if (!client.config.prefixes.concat(`<@${client.user.id}> `).includes(params[0]) && ![ 'DELETE', 'REMOVE', 'RESET' ].includes(params[0].toUpperCase())) {
-				GuildController.update(message.guild, { $set: { prefix: params[0] } })
+				GuildRepository.update(message.guild, { $set: { prefix: params[0] } })
 					.then(() => {
 						message.channel.send(new client.RichEmbed()
 							.setColor(client.util.hexColor(message))
@@ -25,7 +25,7 @@ module.exports = {
 						);
 					});
 			} else if ([ 'DELETE', 'REMOVE', 'RESET' ].includes(params[0].toUpperCase())) {
-				GuildController.update(message.guild, { $set: { prefix: '' } })
+				GuildRepository.update(message.guild, { $set: { prefix: '' } })
 					.then(() => {
 						message.channel.send(new client.RichEmbed()
 							.setColor(client.util.hexColor('SUCCESS'))
@@ -45,7 +45,7 @@ module.exports = {
 				);
 			}
 		} else {
-			GuildController.findOne(message.guild)
+			GuildRepository.findOne(message.guild)
 				.then((guild) => {
 					const prefixes = client.config.prefixes.concat(guild.prefix);
 					const embed = new client.RichEmbed()
