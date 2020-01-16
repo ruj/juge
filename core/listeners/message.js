@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { CommandRepository, GuildRepository } = require('../database/repositories');
 
 module.exports = async (client, message) => {
@@ -20,85 +21,92 @@ module.exports = async (client, message) => {
 					}
 				});
 
-				prefixes.filter(async (prefix) => {
-          if (message.content.startsWith(prefix)) {
-            const params = message.content.slice(prefix.length).split(/ +/);
-            const commandName = params.shift().toLowerCase();
-            const command = client.commands.get(commandName) || client.commands.find((command) => command.aliases && command.aliases.includes(commandName));
+        const prefix = prefixes.reduce((accumulator, current) => message.content.includes(current) && current || accumulator, null);
 
-            if (!command) return;
-            if (command.hasOwnProperty('requirements')) {
-              if (command.requirements.hasOwnProperty('devOnly') && message.author.id !== client.config.ownerID) return;
+        if (message.content.startsWith(prefix)) {
+          const params = message.content.slice(prefix.length).split(/ +/);
+          const commandName = params.shift().toLowerCase();
+          let command = client.commands.get(commandName) || client.commands.find((command) => command.aliases && command.aliases.includes(commandName));
 
-              if (command.requirements.hasOwnProperty('nsfwOnly') && !message.channel.nsfw) {
-                return message.channel.send(new client.RichEmbed()
-                  .setColor(client.util.hexColor('ERROR'))
-                  .setTitle('NSFW Command')
-                  .setDescription('Please switch to NSFW channel in order to use this command.')
-                  .setImage('https://a.kyouko.se/m3cN.jpg')
-                );
-              }
+          if (!command) return;
 
-              if (command.requirements.hasOwnProperty('parameters') && !params.length) {
-                return message.reply('you did not provide any parameters.')
-                  .then(() => {
-                    if (command.hasOwnProperty('usage')) {
-                      message.channel.send(new client.RichEmbed()
-                        .setColor(client.util.hexColor(message))
-                        .addField(':page_facing_up: Usage', client.util.sendCode(`${prefix}${command.name} ${command.usage}`, { code: 'fix' }))
-                      );
-                    }
-                  });
-              }
+          command.requirements = _.defaults(command.requirements, {
+              devOnly: false,
+              nsfwOnly: false,
+              parameters: false,
+              botPermissions: [],
+              permissions: []
+          });
 
-              if (command.requirements.hasOwnProperty('botPermissions')) {
-                if (!message.guild.me.permissions.toArray().includes(command.requirements.botPermissions)) {
-                  const reqPermissions = client.util.difference(command.requirements.botPermissions, message.guild.me.permissions.toArray());
-                  if (reqPermissions.length) return message.reply(`for this command to work I need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
+          if (command.requirements.devOnly && message.author.id !== client.config.ownerID) return;
+
+          if (command.requirements.nsfwOnly && !message.channel.nsfw) {
+            return message.channel.send(new client.RichEmbed()
+              .setColor(client.util.hexColor('ERROR'))
+              .setTitle('NSFW Command')
+              .setDescription('Please switch to NSFW channel in order to use this command.')
+              .setImage('https://a.kyouko.se/m3cN.jpg')
+            );
+          }
+
+          if (command.requirements.parameters && !params.length) {
+            return message.reply('you did not provide any parameters.')
+              .then(() => {
+                if (command.usage) {
+                  message.channel.send(new client.RichEmbed()
+                    .setColor(client.util.hexColor(message))
+                    .addField(':page_facing_up: Usage', client.util.sendCode(`${prefix}${command.name} ${command.usage}`, { code: 'fix' }))
+                  );
                 }
-              }
+              });
+          }
 
-              if (command.requirements.hasOwnProperty('permissions')) {
-                if (!message.member.permissions.toArray().includes(command.requirements.permissions)) {
-                  const reqPermissions = client.util.difference(command.requirements.permissions, message.member.permissions.toArray());
-                  if (reqPermissions.length) return message.reply(`to use this command, you need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
-                }
-              }
-            }
-
-            if (!client.cooldowns.has(command.name)) {
-              client.cooldowns.set(command.name, new (require('discord.js')).Collection());
-            }
-
-            const now = Date.now();
-            const timestamps = client.cooldowns.get(command.name);
-            const cooldownAmount = (command.hasOwnProperty('cooldown') ? command.cooldown : 5) * 1E3;
-
-            if (timestamps.has(message.author.id)) {
-              const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-              if (now < expirationTime) {
-                const timeLeft = ((expirationTime - now) / 1E3).toFixed(1);
-                return message.reply(`please wait \`${timeLeft}\` more second(s).`).then((_message) => _message.delete(timeLeft * 1E3));
-              }
-            }
-
-            timestamps.set(message.author.id, now);
-            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
-            try {
-              const commandExists = await CommandRepository.findOne(command.name);
-              if (commandExists) {
-                await CommandRepository.update(command.name, { $set: { count: commandExists.count + 1 } });
-              } else {
-                await CommandRepository.add(command);
-              }
-
-              command.execute(client, message, params);
-            } catch (error) {
-              client.log(error.message, { tags: ['execute'], color: 'red' });
+          if (command.requirements.botPermissions) {
+            if (!message.guild.me.permissions.toArray().includes(command.requirements.botPermissions)) {
+              const reqPermissions = client.util.difference(command.requirements.botPermissions, message.guild.me.permissions.toArray());
+              if (reqPermissions.length) return message.reply(`for this command to work I need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
             }
           }
-				});
+
+          if (command.requirements.permissions) {
+            if (!message.member.permissions.toArray().includes(command.requirements.permissions)) {
+              const reqPermissions = client.util.difference(command.requirements.permissions, message.member.permissions.toArray());
+              if (reqPermissions.length) return message.reply(`to use this command, you need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
+            }
+          }
+
+          if (!client.cooldowns.has(command.name)) {
+            client.cooldowns.set(command.name, new (require('discord.js')).Collection());
+          }
+
+          const now = Date.now();
+          const timestamps = client.cooldowns.get(command.name);
+          const cooldownAmount = (command.cooldown ? command.cooldown : 5) * 1E3;
+
+          if (timestamps.has(message.author.id)) {
+            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+            if (now < expirationTime) {
+              const timeLeft = ((expirationTime - now) / 1E3).toFixed(1);
+              return message.reply(`please wait \`${timeLeft}\` more second(s).`).then((_message) => _message.delete(timeLeft * 1E3));
+            }
+          }
+
+          timestamps.set(message.author.id, now);
+          setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+          try {
+            const commandExists = await CommandRepository.findOne(command.name);
+            if (commandExists) {
+              await CommandRepository.update(command.name, { $set: { count: commandExists.count + 1 } });
+            } else {
+              await CommandRepository.add(command);
+            }
+
+            command.execute(client, message, params);
+          } catch (error) {
+            client.log(error.message, { tags: ['execute'], color: 'red' });
+          }
+        }
 			} else if (guild === null) {
 				const addGuild = await GuildRepository.add(message.guild);
 				message.channel.send(new client.RichEmbed()
