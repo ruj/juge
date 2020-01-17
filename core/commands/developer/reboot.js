@@ -9,7 +9,7 @@ module.exports = {
   requirements: { devOnly: true, parameters: true, botPermissions: ['EMBED_LINKS'] },
   execute(client, message, params) {
     message.channel.send(new client.RichEmbed()
-      .setColor(client.util.hexColor(message))
+      .setColor(client.utils.hexColor(message))
       .setDescription(`:no_good::skin-tone-1: : Rebooting... I'll be right back!`)
     )
     .then(() => client.destroy())

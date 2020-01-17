@@ -1,6 +1,6 @@
 const MongoRepository = require('../MongoRepository.js');
 const Command = require('../models/Command.js');
-const { md5 } = require('../../util/CryptoUtil.js');
+const { CryptoUtils: { md5 } } = require('../../');
 
 module.exports = {
 	add(command) {

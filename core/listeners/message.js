@@ -12,11 +12,11 @@ module.exports = async (client, message) => {
 				Array(`<@${client.user.id}>`, `<@!${client.user.id}>`).find((mention) => {
 					if (message.content.startsWith(mention)) {
 						const embed = new client.RichEmbed()
-							.setColor(client.util.hexColor(message))
-							.addField(':globe_with_meridians: Global prefixes', client.util.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
-							.addField(':house: Server prefix', client.util.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
+							.setColor(client.utils.hexColor(message))
+							.addField(':globe_with_meridians: Global prefixes', client.utils.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
+							.addField(':house: Server prefix', client.utils.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
 
-              if (new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime()) embed.setFooter(`Updated ${client.util.days(guild.updatedAt, { extended: false }) > 0 ? `${client.util.days(guild.updatedAt)} ago` : 'today'}`);
+              if (new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime()) embed.setFooter(`Updated ${client.utils.days(guild.updatedAt, { extended: false }) > 0 ? `${client.utils.days(guild.updatedAt)} ago` : 'today'}`);
             message.channel.send(embed);
 					}
 				});
@@ -42,7 +42,7 @@ module.exports = async (client, message) => {
 
           if (command.requirements.nsfwOnly && !message.channel.nsfw) {
             return message.channel.send(new client.RichEmbed()
-              .setColor(client.util.hexColor('ERROR'))
+              .setColor(client.utils.hexColor('ERROR'))
               .setTitle('NSFW Command')
               .setDescription('Please switch to NSFW channel in order to use this command.')
               .setImage('https://a.kyouko.se/m3cN.jpg')
@@ -54,8 +54,8 @@ module.exports = async (client, message) => {
               .then(() => {
                 if (command.usage) {
                   message.channel.send(new client.RichEmbed()
-                    .setColor(client.util.hexColor(message))
-                    .addField(':page_facing_up: Usage', client.util.sendCode(`${prefix}${command.name} ${command.usage}`, { code: 'fix' }))
+                    .setColor(client.utils.hexColor(message))
+                    .addField(':page_facing_up: Usage', client.utils.sendCode(`${prefix}${command.name} ${command.usage}`, { code: 'fix' }))
                   );
                 }
               });
@@ -63,14 +63,14 @@ module.exports = async (client, message) => {
 
           if (command.requirements.botPermissions) {
             if (!message.guild.me.permissions.toArray().includes(command.requirements.botPermissions)) {
-              const reqPermissions = client.util.difference(command.requirements.botPermissions, message.guild.me.permissions.toArray());
+              const reqPermissions = client.utils.difference(command.requirements.botPermissions, message.guild.me.permissions.toArray());
               if (reqPermissions.length) return message.reply(`for this command to work I need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
             }
           }
 
           if (command.requirements.permissions) {
             if (!message.member.permissions.toArray().includes(command.requirements.permissions)) {
-              const reqPermissions = client.util.difference(command.requirements.permissions, message.member.permissions.toArray());
+              const reqPermissions = client.utils.difference(command.requirements.permissions, message.member.permissions.toArray());
               if (reqPermissions.length) return message.reply(`to use this command, you need the following permissions: \`${reqPermissions.join('\`, \`')}\`.`);
             }
           }
@@ -110,7 +110,7 @@ module.exports = async (client, message) => {
 			} else if (guild === null) {
 				const addGuild = await GuildRepository.add(message.guild);
 				message.channel.send(new client.RichEmbed()
-          .setColor(client.util.hexColor('WARNING'))
+          .setColor(client.utils.hexColor('WARNING'))
           .setDescription(':warning: : I noticed that the server information is not in my records, I am correcting now, try again later.')
         );
 			}

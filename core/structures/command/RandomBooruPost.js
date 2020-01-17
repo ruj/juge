@@ -8,7 +8,7 @@ module.exports = async (client, { content, channel, guild: { me } }, params, { n
 
       if (posts.length) {
         channel.send(new client.RichEmbed()
-          .setColor(client.util.hexColor(me))
+          .setColor(client.utils.hexColor(me))
           .setImage(posts[0].fileUrl)
         )
       } else {
@@ -16,13 +16,13 @@ module.exports = async (client, { content, channel, guild: { me } }, params, { n
       }
     } catch (error) {
       channel.send(new client.RichEmbed()
-        .setColor(client.util.hexColor('ERROR'))
+        .setColor(client.utils.hexColor('ERROR'))
         .setDescription(`:x: : Oops, **${error.message}**`)
       );
     }
   } else {
     channel.send(new client.RichEmbed()
-      .setColor(client.util.hexColor('WARNING'))
+      .setColor(client.utils.hexColor('WARNING'))
       .setDescription(':warning: : I can not send it here, not even on NSFW channels.')
     );
   }

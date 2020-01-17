@@ -6,5 +6,5 @@ module.exports = {
   RandomNekoDotLifeImage: CommandStructures.RandomNekoDotLifeImage,
   RandomRedditPost: CommandStructures.RandomRedditPost,
 
-  CryptoUtil: require('./util/CryptoUtil.js')
+  CryptoUtils: require('./utils/CryptoUtils.js')
 };

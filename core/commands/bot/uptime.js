@@ -12,15 +12,15 @@ module.exports = {
   cooldown: 5,
   execute(client, message, params) {
     let uptime = {
-      process: client.util.uptime(process.uptime() * 1E3),
-      shard: client.util.uptime(client.uptime)
+      process: client.utils.uptime(process.uptime() * 1E3),
+      shard: client.utils.uptime(client.uptime)
     };
 
     if (process.env.NODE_ENV) {
       const proc = parseFloat(readFileSync('/proc/uptime', { encoding: 'utf-8' }).split(' ')[0] * 1E3);
       const duration = moment.duration(proc);
 
-      if (duration.days() < 1) _.assign(uptime, { server: client.util.uptime(proc) });
+      if (duration.days() < 1) _.assign(uptime, { server: client.utils.uptime(proc) });
       else if (duration.days() == 1) _.assign(uptime, { server: duration.format('D [day]') });
       else if (duration.days() < 10) _.assign(uptime, { server: duration.format('D [days]') });
       else if (duration.days() >= 10) _.assign(uptime, { server: duration.format('DD [days]') });
@@ -29,10 +29,10 @@ module.exports = {
     }
 
     message.channel.send(new client.RichEmbed()
-      .setColor(client.util.hexColor(message))
-      .addField(':clock4: Process', client.util.sendCode(uptime.process, { code: 'xl' }))
-      .addField(':large_blue_diamond: Shard', client.util.sendCode(uptime.shard, { code: 'xl' }))
-      .addField(':desktop: Server', client.util.sendCode(uptime.server, { code: 'xl' }))
+      .setColor(client.utils.hexColor(message))
+      .addField(':clock4: Process', client.utils.sendCode(uptime.process, { code: 'xl' }))
+      .addField(':large_blue_diamond: Shard', client.utils.sendCode(uptime.shard, { code: 'xl' }))
+      .addField(':desktop: Server', client.utils.sendCode(uptime.server, { code: 'xl' }))
     );
   }
 };

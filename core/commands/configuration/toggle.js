@@ -14,13 +14,13 @@ module.exports = {
 			message.channel.setNSFW(true)
 				.then(() => {
 					message.channel.send(new client.RichEmbed()
-						.setColor(client.util.hexColor('SUCCESS'))
+						.setColor(client.utils.hexColor('SUCCESS'))
 						.setDescription(':white_check_mark: : I **activated** the NSFW filter of this channel.')
 					);
 				})
 				.catch((error) => {
 					message.channel.send(new client.RichEmbed()
-						.setColor(client.util.hexColor('ERROR'))
+						.setColor(client.utils.hexColor('ERROR'))
 						.setDescription(`:x: : Oops, **${error.message}**`)
 					);
 				});
@@ -28,19 +28,19 @@ module.exports = {
 			message.channel.setNSFW(false)
 				.then(() => {
 					message.channel.send(new client.RichEmbed()
-						.setColor(client.util.hexColor('SUCCESS'))
+						.setColor(client.utils.hexColor('SUCCESS'))
 						.setDescription(':white_check_mark: : I **disabled** the NSFW filter of this channel.')
 					);
 				})
 				.catch((error) => {
 					message.channel.send(new client.RichEmbed()
-						.setColor(client.util.hexColor('ERROR'))
+						.setColor(client.utils.hexColor('ERROR'))
 						.setDescription(`:x: : Oops, **${error.message}**`)
 					);
 				});
 		} else {
 			const _message = await message.channel.send(new client.RichEmbed()
-				.setColor(client.util.hexColor(message))
+				.setColor(client.utils.hexColor(message))
 				.setDescription(`:tools: : Do you want me to \`${message.channel.nsfw ? 'DISABLE' : 'ENABLE'}\` NSFW content for you on this channel?`)
 			);
 
@@ -53,14 +53,14 @@ module.exports = {
 				if (react.emoji.name === '✅') {
 					message.channel.setNSFW(message.channel.nsfw ? false : true).then(() => {
 						_message.edit(new client.RichEmbed()
-							.setColor(client.util.hexColor('SUCCESS'))
+							.setColor(client.utils.hexColor('SUCCESS'))
 							.setDescription(`:white_check_mark: : I **${message.channel.nsfw ? 'activated' : 'disabled'}** the NSFW filter for this channel.`)
 						);
 						_message.clearReactions();
 					});
 				} else if (react.emoji.name === '❌') {
 					_message.edit(new client.RichEmbed()
-						.setColor(client.util.hexColor(message))
+						.setColor(client.utils.hexColor(message))
 						.setDescription(':octagonal_sign: : **Action canceled**')
 					).then((m) => m.delete(2555));
 					_message.clearReactions();
@@ -70,7 +70,7 @@ module.exports = {
 			await collector.on('end', () => {
 				if (collector.total !== 1) {
 					_message.edit(new client.RichEmbed()
-						.setColor(client.util.hexColor('WARNING'))
+						.setColor(client.utils.hexColor('WARNING'))
 						.setDescription(':warning: : Time to toggle channel content has expired.')
 					);
 					_message.clearReactions();

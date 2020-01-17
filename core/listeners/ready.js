@@ -8,7 +8,7 @@ module.exports = (client) => {
 	function activity() {
 		const presences = [
 			{
-				name: client.util.randomItem(client.config.prefixes),
+				name: client.utils.randomItem(client.config.prefixes),
 				type: 'PLAYING'
 			}, {
 				name: `${client.users.filter((user) => !user.bot && user.presence.status !== 'offline').map((user) => user).length} Users`,

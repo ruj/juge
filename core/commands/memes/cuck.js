@@ -20,7 +20,7 @@ module.exports = {
       await message.channel.send({ files: [{ attachment: await image.getBufferAsync(Jimp.MIME_PNG), name: 'cuck.png' }] }).then(message.channel.stopTyping());
     } catch (error) {
       message.channel.send(new client.RichEmbed()
-        .setColor(client.util.hexColor('ERROR'))
+        .setColor(client.utils.hexColor('ERROR'))
         .setDescription(`:x: : Oops, **${error.message}**`)
       ).then(message.channel.stopTyping());
     }

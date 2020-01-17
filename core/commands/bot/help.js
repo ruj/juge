@@ -20,12 +20,12 @@ module.exports = {
       } = client.commands.get(command);
 
       const embed = new client.RichEmbed()
-        .setColor(client.util.hexColor(message))
+        .setColor(client.utils.hexColor(message))
         .setTitle(`:mag: ${name}`)
         .setDescription(description)
-        .addField(':page_facing_up: Usage', client.util.sendCode(`${message.content.replace(/(help|h).*/g, '')}${name} ${usage}`, { code: 'fix' }))
+        .addField(':page_facing_up: Usage', client.utils.sendCode(`${message.content.replace(/(help|h).*/g, '')}${name} ${usage}`, { code: 'fix' }))
 
-        if (aliases.length) embed.addField(':paperclip: Aliases', client.util.sendCode(aliases.join(' '), { code: 'fix' }));
+        if (aliases.length) embed.addField(':paperclip: Aliases', client.utils.sendCode(aliases.join(' '), { code: 'fix' }));
 
       message.channel.send(embed);
     }
