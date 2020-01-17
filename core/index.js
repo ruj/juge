@@ -6,5 +6,7 @@ module.exports = {
   RandomNekoDotLifeImage: CommandStructures.RandomNekoDotLifeImage,
   RandomRedditPost: CommandStructures.RandomRedditPost,
 
+  Route: require('./structures/Route.js'),
+
   CryptoUtils: require('./utils/CryptoUtils.js')
 };
