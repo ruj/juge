@@ -35,6 +35,10 @@ module.exports = {
 		return `\`\`\`${code}\n${string}\`\`\``;
 	},
 
+  uniqueItems(array) {
+    return array.filter((element, index) => array.indexOf(element) == index);
+  },
+
   uptime(ms) {
     let days, hours, minutes, seconds;
 
