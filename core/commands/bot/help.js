@@ -1,7 +1,9 @@
+const friendly_categories = require('../../assets/json/friendly_categories.json');
+
 module.exports = {
   name: 'help',
   aliases: ['h'],
-  description: 'Shows details about a command',
+  description: 'Shows details about a category or command',
   usage: '<category|command>',
   category: 'bot',
   requirements: { botPermissions: ['EMBED_LINKS'] },
@@ -31,11 +33,12 @@ module.exports = {
           if (aliases.length) embed.addField(':paperclip: Aliases', client.utils.sendCode(aliases.join(' '), { code: 'fix' }));
         message.channel.send(embed);
       } else if (categories.includes(parameter)) {
-          const category = client.commands.filter(({ category }) => category === parameter);
+          const commands = client.commands.filter(({ category }) => category === parameter);
+          const category = friendly_categories[commands.map(({ category }) => category)[0]];
 
           message.channel.send(new client.RichEmbed()
             .setColor(client.utils.hexColor(message))
-            .addField(`:black_small_square: ${category.map(({ category }) => category)[0]}`, client.utils.chunkArray(category.map(({ name }) => name), { chunks: 3 }).map((items) => `\`${items.map((name) => client.utils.leading(name, { side: 'right', width: 15, character: ' ' })).join('')}\``).join('\n'))
+            .addField(`${category.icon} ${category.name}`, client.utils.chunkArray(commands.map(({ name }) => name), { chunks: 3 }).map((items) => `\`${items.map((name) => client.utils.leading(name, { side: 'right', width: 15, character: ' ' })).join('')}\``).join('\n'))
           );
       }
     }

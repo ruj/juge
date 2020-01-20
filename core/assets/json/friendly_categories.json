@@ -1,0 +1,30 @@
+{
+  "bot": {
+    "icon": ":robot:",
+    "name": "Bot"
+  },
+  "configuration": {
+    "icon": ":gear:",
+    "name": "Configuration"
+  },
+  "developer": {
+    "icon": ":detective_tone1:",
+    "name": "Developer"
+  },
+  "images": {
+    "icon": ":frame_photo:",
+    "name": "Images"
+  },
+  "memes": {
+    "icon": ":joy:",
+    "name": "Memes"
+  },
+  "nsfw": {
+    "icon": ":underage:",
+    "name": "Not Safe For Work"
+  },
+  "utility": {
+    "icon": ":tools:",
+    "name": "Utility"
+  }
+}
