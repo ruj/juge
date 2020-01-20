@@ -1,4 +1,8 @@
 module.exports = {
+  chunkArray(array, { chunks = 1 } = {}) {
+    return [].concat.apply([], array.map((element, index) => index % chunks ? [] : [array.slice(index, index + chunks)]));
+  },
+
 	days(date, { extended = true } = {}) {
 		let difference = new Date().getTime() - new Date(date).getTime();
 		let days = Math.floor(difference / 86400000);
@@ -27,6 +31,19 @@ module.exports = {
     }
   },
 
+  leading(text, {
+    side = 'left',
+    width = 10,
+    character = '0'
+  } = {}) {
+    const sides = {
+      left: new Array(width - text.length + 1).join(character) + text,
+      right: text + new Array(width - text.length + 1).join(character)
+    };
+
+    return text.length >= width ? text : sides[side];
+  },
+
 	randomItem(items) {
 		return items[Math.floor(Math.random() * items.length)];
 	},
@@ -36,7 +53,7 @@ module.exports = {
 	},
 
   uniqueItems(array) {
-    return array.filter((element, index) => array.indexOf(element) == index);
+    return array.filter((item, index, self) => self.indexOf(item) == index);
   },
 
   uptime(ms) {
