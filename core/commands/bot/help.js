@@ -1,4 +1,4 @@
-const friendly_categories = require('../../assets/json/friendly_categories.json');
+const friendlyCategories = require('../../assets/json/friendly_categories.json');
 
 module.exports = {
   name: 'help',
@@ -28,13 +28,13 @@ module.exports = {
           .setColor(client.utils.hexColor(message))
           .setTitle(`:mag: ${name}`)
           .setDescription(description)
-          .addField(':page_facing_up: Usage', client.utils.sendCode(`${message.content.replace(/(help|h).*/g, '')}${name} ${usage}`, { code: 'fix' }))
+          .addField(':page_facing_up: Usage', client.utils.sendCode(`${message.content.replace(/(help|h).*/g, '')}${name}${usage ? ` ${usage}` : ''}`, { code: 'fix' }))
 
           if (aliases.length) embed.addField(':paperclip: Aliases', client.utils.sendCode(aliases.join(' '), { code: 'fix' }));
         message.channel.send(embed);
       } else if (categories.includes(parameter)) {
           const commands = client.commands.filter(({ category }) => category === parameter);
-          const category = friendly_categories[commands.map(({ category }) => category)[0]];
+          const category = friendlyCategories[commands.map(({ category }) => category)[0]];
 
           message.channel.send(new client.RichEmbed()
             .setColor(client.utils.hexColor(message))
