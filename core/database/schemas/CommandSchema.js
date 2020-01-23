@@ -4,7 +4,7 @@ module.exports = model('Command', new Schema({
 	_id: String,
 	name: String,
 	category: String,
-	count: Number	
+	count: Number
 }, {
 	timestamps: {
 		createdAt: true,

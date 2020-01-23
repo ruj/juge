@@ -1,5 +1,5 @@
 const MongoRepository = require('../MongoRepository.js');
-const Guild = require('../models/Guild.js');
+const Guild = require('../schemas/GuildSchema.js');
 
 module.exports = {
 	add(guild) {
