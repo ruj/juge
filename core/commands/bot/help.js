@@ -6,9 +6,10 @@ module.exports = {
   description: 'Shows details about a category or command',
   usage: '<category|command>',
   category: 'bot',
-  requirements: { botPermissions: ['EMBED_LINKS'] },
+  requirements: { botPermissions: ['EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'] },
   execute(client, message, params) {
     let [ parameter ] = params;
+    const prefixUsed = message.content.replace(/(help|h).*/g, '');
 
     if (parameter) {
       parameter = parameter.toLowerCase();
@@ -28,7 +29,7 @@ module.exports = {
           .setColor(client.utils.hexColor(message))
           .setTitle(`:mag: ${name}`)
           .setDescription(description)
-          .addField(':page_facing_up: Usage', client.utils.sendCode(`${message.content.replace(/(help|h).*/g, '')}${name}${usage ? ` ${usage}` : ''}`, { code: 'fix' }))
+          .addField(':page_facing_up: Usage', client.utils.sendCode(`${prefixUsed}${name}${usage ? ` ${usage}` : ''}`, { code: 'fix' }))
 
           if (aliases.length) embed.addField(':paperclip: Aliases', client.utils.sendCode(aliases.join(' '), { code: 'fix' }));
         message.channel.send(embed);
@@ -41,6 +42,21 @@ module.exports = {
             .addField(`${category.icon} ${category.name}`, client.utils.chunkArray(commands.map(({ name }) => name), { chunks: 3 }).map((items) => `\`${items.map((name) => client.utils.leading(name, { side: 'right', width: 15, character: ' ' })).join('')}\``).join('\n'))
           );
       }
+    } else {
+      message.channel.send(new client.RichEmbed()
+        .setColor(client.utils.hexColor(message))
+        .setTitle(`${getEmoji('669895916299485211')} ${client.user.username}'s Help`)
+        .setDescription(`*Use \`${prefixUsed}help <category/command>\` for more info about!*`)
+        .addField('\u200B', [
+          `${getEmoji('563403841924497419')} [GitHub Repository](https://github.com/tenasatupitsyn/juge)`
+        ].join(' '))
+      );
+    }
+
+    function getEmoji(_id) {
+      const { id, name } = client.emojis.get(_id);
+
+      return `<:${name}:${id}>`;
     }
   }
 };
