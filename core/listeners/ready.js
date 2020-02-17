@@ -8,7 +8,7 @@ module.exports = (client) => {
 				name: client.utils.randomItem(client.config.prefixes),
 				type: 'PLAYING'
 			}, {
-				name: `${client.users.filter((user) => !user.bot && user.presence.status !== 'offline').map((user) => user).length} Users`,
+				name: `${client.users.filter((user) => !user.bot && user.presence.status !== 'offline').array().length} Users`,
 				type: 'WATCHING'
 			}
 		];
