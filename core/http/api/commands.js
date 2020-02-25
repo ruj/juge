@@ -9,7 +9,7 @@ module.exports = {
     });
 
     router.get('/:name', (request, response) => {
-      const command = client.commands.find((command) => command.name === request.params.name);
+      const command = client.commands.find((command) => command.name === request.params.name || command.aliases.includes(request.params.name));
 
       if (!command) return response.status(400).json({ message: 'Invalid command' });
 
