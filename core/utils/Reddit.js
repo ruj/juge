@@ -1,4 +1,4 @@
-const { randomItem } = require('./Utils.js');
+const { randomItem } = require('./');
 const fetch = require('node-fetch');
 
 module.exports = async (subreddit) => {

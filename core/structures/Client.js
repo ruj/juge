@@ -14,7 +14,7 @@ module.exports = class extends Client {
 		this.aliases = new Collection()
 		this.cooldowns = new Collection()
 		this.RichEmbed = RichEmbed
-		this.utils = require('../utils/Utils.js')
+		this.utils = require('../utils')
 		this.config = config
 	}
 
