@@ -8,5 +8,6 @@ module.exports = {
 
   Route: require('./structures/Route.js'),
 
-  CryptoUtils: require('./utils/CryptoUtils.js')
+  CryptoUtils: require('./utils/CryptoUtils.js'),
+  JimpUtils: require('./utils/JimpUtils.js')
 };
