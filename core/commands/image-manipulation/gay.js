@@ -1,5 +1,4 @@
 const { JimpUtils } = require('../../');
-const { resolve } = require('path');
 
 module.exports = {
 	name: 'gay',
@@ -12,11 +11,10 @@ module.exports = {
 	async execute(client, message, params) {
 		message.channel.startTyping();
 		const avatar = message.mentions.users.size ? message.mentions.users.first().displayAvatarURL : message.author.displayAvatarURL;
-		const composition = resolve(__dirname, '..', '..', 'assets', 'png', 'gay.png');
 
 		message.channel.send({
 			files: [{
-				attachment: await JimpUtils.composite(avatar, composition, { size: [512, 512] }),
+				attachment: await JimpUtils.composite(avatar, 'png/gay.png', { size: 512 }),
 				name: 'gay.png'
 			}]
 		}).then(message.channel.stopTyping());
