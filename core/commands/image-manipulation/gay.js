@@ -6,10 +6,9 @@ module.exports = {
 	description: 'Generates avatar photo with rainbow filter',
 	usage: '<user>',
 	category: 'images',
-	requirements: { botPermissions: ['EMBED_LINKS', 'ATTACH_FILES'] },
+	requirements: { botPermissions: ['EMBED_LINKS', 'ATTACH_FILES'], typing: true },
 	cooldown: 10,
 	async execute(client, message, params) {
-		message.channel.startTyping();
 		const avatar = message.mentions.users.size ? message.mentions.users.first().displayAvatarURL : message.author.displayAvatarURL;
 
 		message.channel.send({
@@ -17,6 +16,6 @@ module.exports = {
 				attachment: await JimpUtils.composite(avatar, 'png/gay.png', { size: 512 }),
 				name: 'gay.png'
 			}]
-		}).then(message.channel.stopTyping());
+		});
 	}
 };

@@ -35,7 +35,8 @@ module.exports = async (client, message) => {
               nsfwOnly: false,
               parameters: false,
               botPermissions: [],
-              permissions: []
+              permissions: [],
+              typing: false
           });
 
           if (command.requirements.devOnly && message.author.id !== client.config.ownerID) return;
@@ -102,7 +103,12 @@ module.exports = async (client, message) => {
               await CommandRepository.add(command);
             }
 
-            command.execute(client, message, params);
+            if (command.requirements.typing) message.channel.startTyping();
+
+            Promise.resolve(command.execute(client, message, params))
+              .then(() => {
+                if (command.requirements.typing) message.channel.stopTyping();
+              });
           } catch (error) {
             client.log(error.message, { tags: ['execute'], color: 'red' });
           }
