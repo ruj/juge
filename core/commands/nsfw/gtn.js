@@ -14,12 +14,12 @@ module.exports = {
 			const body = await response.json();
 
 			message.channel.send(new client.RichEmbed()
-				.setColor(client.util.hexColor(message))
+				.setColor(client.utils.hexColor(message))
 				.setImage(`${BASE_URL}${body.path}`)
 			);
 		} catch (error) {
 			message.channel.send(new client.RichEmbed()
-				.setColor(client.util.hexColor('ERROR'))
+				.setColor(client.utils.hexColor('ERROR'))
 				.setDescription(`:x: : Oops, **${error.message}**`)
 			);
 		}

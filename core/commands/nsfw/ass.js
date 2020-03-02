@@ -15,20 +15,20 @@ module.exports = {
 				const butts = await Butts.getButts();
 
 				message.channel.send(new client.RichEmbed()
-					.setColor(client.util.hexColor(message))
+					.setColor(client.utils.hexColor(message))
 					.setImage(`${BASE_URL}/${butts[0].preview}`)
 				);
 			} else if (params[0].toUpperCase() === 'NOISE') {
 				const noise = await Butts.getNoise();
 
 				message.channel.send(new client.RichEmbed()
-					.setColor(client.util.hexColor(message))
+					.setColor(client.utils.hexColor(message))
 					.setImage(`${BASE_URL}/${noise[0].preview}`)
 				);
 			}
 		} catch (error) {
 			message.channel.send(new client.RichEmbed()
-				.setColor(client.util.hexColor('ERROR'))
+				.setColor(client.utils.hexColor('ERROR'))
 				.setDescription(`:x: : Oops, **${error.message}**`)
 			);
 		}
