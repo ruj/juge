@@ -25,7 +25,7 @@ module.exports = {
           usage
         } = client.commands.get(parameter);
 
-        const embed = new client.RichEmbed()
+        const embed = new client.MessageEmbed()
           .setColor(client.utils.hexColor(message))
           .setTitle(`:mag: ${name}`)
           .setDescription(description)
@@ -37,13 +37,13 @@ module.exports = {
           const commands = client.commands.filter(({ category }) => category === parameter);
           const category = friendlyCategories[commands.map(({ category }) => category)[0]];
 
-          message.channel.send(new client.RichEmbed()
+          message.channel.send(new client.MessageEmbed()
             .setColor(client.utils.hexColor(message))
             .addField(`${category.icon} ${category.name}`, client.utils.chunkArray(commands.map(({ name }) => name), { chunks: 3 }).map((items) => `\`${items.map((name) => client.utils.leading(name, { side: 'right', width: 15, character: ' ' })).join('')}\``).join('\n'))
           );
       }
     } else {
-      message.channel.send(new client.RichEmbed()
+      message.channel.send(new client.MessageEmbed()
         .setColor(client.utils.hexColor(message))
         .setTitle(`${getEmoji('669895916299485211')} ${client.user.username}'s Help`)
         .setDescription(`*Use \`${prefixUsed}help <category/command>\` for more info about!*`)
@@ -54,7 +54,7 @@ module.exports = {
     }
 
     function getEmoji(_id) {
-      const { id, name } = client.emojis.get(_id);
+      const { id, name } = client.emojis.cache.get(_id);
 
       return `<:${name}:${id}>`;
     }

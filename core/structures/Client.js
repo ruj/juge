@@ -1,21 +1,23 @@
-const { Client, Collection, RichEmbed } = require('discord.js')
+const { Client, Collection, MessageEmbed } = require('discord.js')
 const chalk = require('chalk')
 const _ = require('lodash')
 
 module.exports = class extends Client {
 	constructor(config) {
 		super({
-			fetchAllMembers: true,
-			disableEveryone: true,
-			disabledEvents: ['TYPING_START']
+			disableMentions: 'everyone'
 		})
 
 		this.commands = new Collection()
 		this.aliases = new Collection()
 		this.cooldowns = new Collection()
-		this.RichEmbed = RichEmbed
+		this.MessageEmbed = MessageEmbed
 		this.utils = require('../utils')
 		this.config = config
+	}
+
+	login(token = process.env.JUGE_TOKEN) {
+		return super.login(token)
 	}
 
 	log(message, {

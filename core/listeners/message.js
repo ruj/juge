@@ -11,7 +11,7 @@ module.exports = async (client, message) => {
 
 				Array(`<@${client.user.id}>`, `<@!${client.user.id}>`).find((mention) => {
 					if (message.content.startsWith(mention)) {
-						const embed = new client.RichEmbed()
+						const embed = new client.MessageEmbed()
 							.setColor(client.utils.hexColor(message))
 							.addField(':globe_with_meridians: Global prefixes', client.utils.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
 							.addField(':house: Server prefix', client.utils.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
@@ -42,7 +42,7 @@ module.exports = async (client, message) => {
           if (command.requirements.devOnly && message.author.id !== client.config.ownerID) return;
 
           if (command.requirements.nsfwOnly && !message.channel.nsfw) {
-            return message.channel.send(new client.RichEmbed()
+            return message.channel.send(new client.MessageEmbed()
               .setColor(client.utils.hexColor('ERROR'))
               .setTitle('NSFW Command')
               .setDescription('Please switch to NSFW channel in order to use this command.')
@@ -54,7 +54,7 @@ module.exports = async (client, message) => {
             return message.reply('you did not provide any parameters.')
               .then(() => {
                 if (command.usage) {
-                  message.channel.send(new client.RichEmbed()
+                  message.channel.send(new client.MessageEmbed()
                     .setColor(client.utils.hexColor(message))
                     .addField(':page_facing_up: Usage', client.utils.sendCode(`${prefix}${command.name} ${command.usage}`, { code: 'fix' }))
                   );
@@ -88,7 +88,7 @@ module.exports = async (client, message) => {
             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
             if (now < expirationTime) {
               const timeLeft = ((expirationTime - now) / 1E3).toFixed(1);
-              return message.reply(`please wait \`${timeLeft}\` more second(s).`).then((_message) => _message.delete(timeLeft * 1E3));
+              return message.reply(`please wait \`${timeLeft}\` more second(s).`).then((_message) => _message.delete({ timeout: timeLeft * 1E3 }));
             }
           }
 
@@ -115,7 +115,7 @@ module.exports = async (client, message) => {
         }
 			} else if (guild === null) {
 				const addGuild = await GuildRepository.add(message.guild);
-				message.channel.send(new client.RichEmbed()
+				message.channel.send(new client.MessageEmbed()
           .setColor(client.utils.hexColor('WARNING'))
           .setDescription(':warning: : I noticed that the server information is not in my records, I am correcting now, try again later.')
         );

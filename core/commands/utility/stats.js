@@ -10,7 +10,7 @@ module.exports = {
   async execute(client, message, params) {
     const commands = await CommandRepository.findAll();
 
-    message.channel.send(new client.RichEmbed()
+    message.channel.send(new client.MessageEmbed()
       .setColor(client.utils.hexColor(message))
       .setTitle(':notepad_spiral: Command usage statistics')
       .setDescription(commands

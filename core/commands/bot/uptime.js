@@ -28,7 +28,7 @@ module.exports = {
       writeServerUptime('Not in production');
     }
 
-    message.channel.send(new client.RichEmbed()
+    message.channel.send(new client.MessageEmbed()
       .setColor(client.utils.hexColor(message))
       .addField(':clock4: Process', client.utils.sendCode(uptime.process, { code: 'xl' }))
       .addField(':large_blue_diamond: Shard', client.utils.sendCode(uptime.shard, { code: 'xl' }))

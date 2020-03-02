@@ -9,4 +9,4 @@ const Juge = new (require('./structures/Client.js'))({
 	}
 })(require('./loaders'));
 
-Juge.login(process.env.JUGE_TOKEN).catch(console.error);
+Juge.login().catch(console.error);

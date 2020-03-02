@@ -13,7 +13,7 @@ module.exports = {
           count: client.commands.filter(({ category }) => category !== 'developer').array().length
         },
         users: {
-          count: client.users.size
+          count: client.users.cache.size
         },
         uptime: {
           process: process.uptime() * 1E3

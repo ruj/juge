@@ -7,7 +7,7 @@ module.exports = {
 	category: 'bot',
 	requirements: { botPermissions: ['EMBED_LINKS'] },
 	async execute(client, message, params) {
-		message.channel.send(new client.RichEmbed()
+		message.channel.send(new client.MessageEmbed()
 			.setColor(client.utils.hexColor(message))
 			.setDescription(client.utils.randomItem(invitationPhrases)
 				.replace('{{INVITE_LINK}}', await client.generateInvite(Number(process.env.JUGE_PERMISSIONS)))

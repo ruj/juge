@@ -8,12 +8,15 @@ module.exports = {
 	category: 'images',
 	requirements: { botPermissions: ['EMBED_LINKS', 'ATTACH_FILES'], typing: true },
 	cooldown: 10,
+	avatarOptions: { format: 'png', dynamic: true },
 	async execute(client, message, params) {
-		const avatar = message.mentions.users.size ? message.mentions.users.first().displayAvatarURL : message.author.displayAvatarURL;
+		const avatarURL = message.mentions.users.size
+		? message.mentions.users.first().displayAvatarURL(this.avatarOptions)
+		: message.author.displayAvatarURL(this.avatarOptions);
 
 		message.channel.send({
 			files: [{
-				attachment: await JimpUtils.composite(avatar, 'png/gay.png', { size: 512 }),
+				attachment: await JimpUtils.composite(avatarURL, 'png/gay.png', { size: 512 }),
 				name: 'gay.png'
 			}]
 		});

@@ -10,16 +10,15 @@ module.exports = {
 	requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
 	async execute(client, message, params) {
 		try {
-			const response = await fetch(`${BASE_URL}/i/r?nsfw=true`);
-			const body = await response.json();
+			const body = await fetch(`${BASE_URL}/i/r?nsfw=true`).then((response) => response.json());
 
-			message.channel.send(new client.RichEmbed()
-				.setColor(client.util.hexColor(message))
+			message.channel.send(new client.MessageEmbed()
+				.setColor(client.utils.hexColor(message))
 				.setImage(`${BASE_URL}${body.path}`)
 			);
 		} catch (error) {
-			message.channel.send(new client.RichEmbed()
-				.setColor(client.util.hexColor('ERROR'))
+			message.channel.send(new client.MessageEmbed()
+				.setColor(client.utils.hexColor('ERROR'))
 				.setDescription(`:x: : Oops, **${error.message}**`)
 			);
 		}

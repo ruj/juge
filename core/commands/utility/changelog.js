@@ -11,7 +11,7 @@ module.exports = {
   async execute(client, message, params) {
     const commits = (await GitHub.getRepository(JUGE_REPO_USERNAME, JUGE_REPO_NAME, 'commits')).slice(0, 10);
 
-    const embed = new client.RichEmbed()
+    const embed = new client.MessageEmbed()
       .setColor(client.utils.hexColor(message))
       .setTitle(`${JUGE_REPO_NAME}:master`)
       .setURL(`https://github.com/${JUGE_REPO_USERNAME}/${JUGE_REPO_NAME}/commits/master`)
