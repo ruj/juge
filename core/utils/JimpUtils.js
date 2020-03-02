@@ -8,6 +8,7 @@ module.exports = {
   async composite(image, composition, {
     size = [0, 0],
     position = [0, 0],
+    invertBase = false,
     mime = 'png'
   } = {}) {
     composition = !parse(composition).slashes ? resolve(assetsDirectory, composition) : composition;
@@ -17,9 +18,14 @@ module.exports = {
     size = !isNaN(size) ? [size, Jimp.AUTO] : size;
 
     baseImage.resize(...size);
-    baseImage.composite(compositionImage, ...position);
 
-    return baseImage.getBufferAsync(this._setMIME(mime));
+    if (!invertBase) {
+      baseImage.composite(compositionImage, ...position);
+      return baseImage.getBufferAsync(this._setMIME(mime));
+    } else {
+      compositionImage.composite(baseImage, ...position);
+      return compositionImage.getBufferAsync(this._setMIME(mime));
+    }
   },
 
   _setMIME(mime) {
