@@ -7,7 +7,8 @@ const assetsDirectory = resolve(__dirname, '..', 'assets');
 module.exports = {
   async composite(image, composition, {
     size = [0, 0],
-    position = [0, 0]
+    position = [0, 0],
+    mime = 'png'
   } = {}) {
     composition = !parse(composition).slashes ? resolve(assetsDirectory, composition) : composition;
 
@@ -18,7 +19,15 @@ module.exports = {
     baseImage.resize(...size);
     baseImage.composite(compositionImage, ...position);
 
-    return baseImage.getBufferAsync(Jimp.MIME_PNG);
+    return baseImage.getBufferAsync(this._setMIME(mime));
+  },
+
+  _setMIME(mime) {
+    return {
+      png: Jimp.MIME_PNG,
+      jpg: Jimp.MIME_JPEG,
+      bmp: Jimp.MIME_BMP
+    }[mime] || Jimp.AUTO;
   },
 
   read(images) {
