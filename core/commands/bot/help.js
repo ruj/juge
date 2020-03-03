@@ -1,4 +1,5 @@
 const friendlyCategories = require('../../assets/json/friendly_categories.json');
+const { JUGE_REPO_USERNAME, JUGE_REPO_NAME } = process.env;
 
 module.exports = {
   name: 'help',
@@ -45,17 +46,16 @@ module.exports = {
     } else {
       message.channel.send(new client.MessageEmbed()
         .setColor(client.utils.hexColor(message))
-        .setTitle(`${getEmoji('669895916299485211')} ${client.user.username}'s Help`)
+        .setTitle(`${resolveEmoji('669895916299485211')} ${client.user.username}'s Help`)
         .setDescription(`*Use \`${prefixUsed}help <category/command>\` for more info about!*`)
         .addField('\u200B', [
-          `${getEmoji('563403841924497419')} [GitHub Repository](https://github.com/tenasatupitsyn/juge)`
+          `${resolveEmoji('563403841924497419')} [GitHub Repository](https://github.com/${JUGE_REPO_USERNAME}/${JUGE_REPO_NAME})`
         ].join(' '))
       );
     }
 
-    function getEmoji(_id) {
+    function resolveEmoji(_id) {
       const { id, name } = client.emojis.cache.get(_id);
-
       return `<:${name}:${id}>`;
     }
   }
