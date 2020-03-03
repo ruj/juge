@@ -12,7 +12,7 @@ module.exports = {
   async execute(client, message, params) {
     const [ branchName ] = params;
     const branches = await GitHub.getRepository(JUGE_REPO_USERNAME, JUGE_REPO_NAME, 'branches');
-    let branch = branches.filter((branch) => branch.name === branchName.toLowerCase());
+    let branch = branches.filter((branch) => branchName && branch.name === branchName.toLowerCase());
 
     branch = !branch.length
     ? branches.filter((branch) => branch.name === 'stable')[0]
@@ -21,7 +21,7 @@ module.exports = {
     const commits = (await GitHub.getRepository(JUGE_REPO_USERNAME, JUGE_REPO_NAME, `commits?sha=${branch.commit.sha}&per_page=NEED_THIS`)).slice(0, 10);
     const embed = new client.MessageEmbed()
       .setColor(client.utils.hexColor(message))
-      .setTitle(`${JUGE_REPO_NAME}:${branch.name}`)
+      .setTitle(`:twisted_rightwards_arrows: ${JUGE_REPO_NAME}:${branch.name}`)
       .setURL(`https://github.com/${JUGE_REPO_USERNAME}/${JUGE_REPO_NAME}/commits/${branch.name}`)
 
       commits.map(({ sha, commit, html_url, committer }) => embed.addField(sha.slice(0, 7), [
