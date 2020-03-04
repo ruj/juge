@@ -8,7 +8,7 @@ module.exports = {
   description: 'Time the client and server is awake',
   category: 'bot',
   requirements: { botPermissions: ['EMBED_LINKS'] },
-  execute(client, message, params) {
+  execute(client, message) {
     let uptime = {
       process: client.utils.uptime(process.uptime() * 1E3),
       shard: client.utils.uptime(client.uptime)

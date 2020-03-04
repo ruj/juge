@@ -9,8 +9,8 @@ module.exports = {
 		permissions: ['MANAGE_CHANNELS']
 	},
 	cooldown: 30,
-	async execute(client, message, params) {
-		if (params.length && ['TRUE', 'ENABLE'].includes(params[0].toUpperCase()) && !message.channel.nsfw) {
+	async execute(client, message) {
+		if (message.params.length && ['TRUE', 'ENABLE'].includes(message.params[0].toUpperCase()) && !message.channel.nsfw) {
 			message.channel.setNSFW(true)
 				.then(() => {
 					message.channel.send(new client.MessageEmbed()
@@ -24,7 +24,7 @@ module.exports = {
 						.setDescription(`:x: : Oops, **${error.message}**`)
 					);
 				});
-		} else if (params.length && ['FALSE', 'DISABLE'].includes(params[0].toUpperCase()) && message.channel.nsfw) {
+		} else if (message.params.length && ['FALSE', 'DISABLE'].includes(message.params[0].toUpperCase()) && message.channel.nsfw) {
 			message.channel.setNSFW(false)
 				.then(() => {
 					message.channel.send(new client.MessageEmbed()

@@ -9,8 +9,8 @@ module.exports = {
   category: 'utility',
   requirements: { botPermissions: ['EMBED_LINKS'] },
   cooldown: 60,
-  async execute(client, message, params) {
-    const [ branchName ] = params;
+  async execute(client, message) {
+    const [ branchName ] = message.params;
     const branches = await GitHub.getRepository(JUGE_REPO_USERNAME, JUGE_REPO_NAME, 'branches');
     let branch = branches.filter((branch) => branchName && branch.name === branchName.toLowerCase());
 

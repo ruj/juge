@@ -7,7 +7,7 @@ module.exports = {
   category: 'utility',
   requirements: { botPermissions: ['EMBED_LINKS'] },
   cooldown: 15,
-  async execute(client, message, params) {
+  async execute(client, message) {
     const commands = await CommandRepository.findAll();
 
     message.channel.send(new client.MessageEmbed()

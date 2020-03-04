@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Nekos!',
 	category: 'nsfw',
 	requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
-	async execute(client, message, params) {
+	async execute(client, message) {
 		await RandomNekoDotLifeImage(client, message, this);
 	}
 };

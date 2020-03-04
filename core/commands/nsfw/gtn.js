@@ -8,7 +8,7 @@ module.exports = {
 	description: 'GreenTeaNeko comics',
 	category: 'nsfw',
 	requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
-	async execute(client, message, params) {
+	async execute(client, message) {
 		try {
 			const body = await fetch(`${BASE_URL}/i/r?nsfw=true`).then((response) => response.json());
 

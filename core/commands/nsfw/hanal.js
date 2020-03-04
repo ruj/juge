@@ -6,7 +6,7 @@ module.exports = {
   description: 'Anus of anime girls',
   category: 'nsfw',
   requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
-  async execute(client, message, params) {
+  async execute(client, message) {
     await RandomNekoBotImage(client, message, this);
   }
 };

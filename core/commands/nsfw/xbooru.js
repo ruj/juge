@@ -8,7 +8,7 @@ module.exports = {
   category: 'nsfw',
   requirements: { nsfwOnly: true, parameters: true, botPermissions: ['EMBED_LINKS'] },
   cooldown: 10,
-  async execute(client, message, params) {
-    await RandomBooruPost(client, message, params, this);
+  async execute(client, message) {
+    await RandomBooruPost(client, message, this);
   }
 };

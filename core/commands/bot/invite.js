@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Bot invitation link',
 	category: 'bot',
 	requirements: { botPermissions: ['EMBED_LINKS'] },
-	async execute(client, message, params) {
+	async execute(client, message) {
 		message.channel.send(new client.MessageEmbed()
 			.setColor(client.utils.hexColor(message))
 			.setDescription(client.utils.randomItem(invitationPhrases)

@@ -8,8 +8,8 @@ module.exports = {
   usage: '<category|command>',
   category: 'bot',
   requirements: { botPermissions: ['EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'] },
-  execute(client, message, params) {
-    let [ parameter ] = params;
+  execute(client, message) {
+    let [ parameter ] = message.params;
     const prefixUsed = message.content.replace(/(help|h).*/g, '');
 
     if (parameter) {

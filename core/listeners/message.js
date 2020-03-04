@@ -106,7 +106,7 @@ module.exports = async (client, message) => {
 
             if (command.requirements.typing) message.channel.startTyping();
 
-            Promise.resolve(command.execute(message))
+            Promise.resolve(command.execute(client, message))
               .then(() => {
                 if (command.requirements.typing) message.channel.stopTyping();
               });

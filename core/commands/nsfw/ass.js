@@ -9,16 +9,16 @@ module.exports = {
 	usage: '<noise>',
 	category: 'nsfw',
 	requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
-	async execute(client, message, params) {
+	async execute(client, message) {
 		try {
-			if (!params.length) {
+			if (!message.params.length) {
 				const butts = await Butts.getButts();
 
 				message.channel.send(new client.MessageEmbed()
 					.setColor(client.utils.hexColor(message))
 					.setImage(`${BASE_URL}/${butts[0].preview}`)
 				);
-			} else if (params[0].toUpperCase() === 'NOISE') {
+			} else if (message.params[0].toUpperCase() === 'NOISE') {
 				const noise = await Butts.getNoise();
 
 				message.channel.send(new client.MessageEmbed()

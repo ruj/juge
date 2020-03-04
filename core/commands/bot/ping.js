@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Latency time',
 	category: 'bot',
 	requirements: { botPermissions: ['EMBED_LINKS'] },
-	execute(client, message, params) {
+	execute(client, message) {
 		let initialDate = new Date();
 		let JugeLatency = new Date() - message.createdAt;
 		let messageLatency = new Date() - initialDate;
