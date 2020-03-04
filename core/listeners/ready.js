@@ -13,9 +13,7 @@ module.exports = (client) => {
 			}
 		];
 
-		for (let i = 0; i < presences.length; i++) {
-			((k) => setTimeout(() => client.user.setPresence({ activity: presences[k] }), 1E3 + (60 * 1E3 * k)))(i);
-		}
+		presences.forEach((presence, index) => setTimeout(() => client.user.setPresence({ activity: presence }), (index * 60) * 1E3));
 
 		setTimeout(activity, 60 * presences.length * 1E3);
 	}, (Math.random() * 10).toFixed(3) * 1E3);
