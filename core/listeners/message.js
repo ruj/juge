@@ -98,7 +98,7 @@ module.exports = async (client, message) => {
           try {
             const commandExists = await CommandRepository.findOne(command.name);
             if (commandExists) {
-              await CommandRepository.update(command.name, { $set: { count: commandExists.count + 1 } });
+              await CommandRepository.update(command.name, { $inc: { count: 1 } });
             } else {
               await CommandRepository.add(command);
             }
