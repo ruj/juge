@@ -30,6 +30,7 @@ module.exports = async (client, message) => {
 
           if (!command) return;
 
+          message.params = params;
           command.requirements = _.defaults(command.requirements, {
               devOnly: false,
               nsfwOnly: false,
@@ -105,7 +106,7 @@ module.exports = async (client, message) => {
 
             if (command.requirements.typing) message.channel.startTyping();
 
-            Promise.resolve(command.execute(client, message, params))
+            Promise.resolve(command.execute(message))
               .then(() => {
                 if (command.requirements.typing) message.channel.stopTyping();
               });
