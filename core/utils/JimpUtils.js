@@ -13,19 +13,26 @@ module.exports = {
   } = {}) {
     composition = !parse(composition).slashes ? resolve(assetsDirectory, composition) : composition;
 
-    const [baseImage, compositionImage] = await this.read([image, composition]);
+    let [baseImage, compositionImage] = await this.read([image, composition]);
 
-    size = !isNaN(size) ? [size, Jimp.AUTO] : size;
+    size = !isNaN(size)
+    ? [size, Jimp.AUTO]
+    : size.filter((value) => {
+      if (size[value] === 0) {
+        size.splice(value, 1);
+        value--;
+      }
+    });
 
-    baseImage.resize(...size);
-
-    if (!invertBase) {
-      baseImage.composite(compositionImage, ...position);
-      return baseImage.getBufferAsync(this._setMIME(mime));
-    } else {
-      compositionImage.composite(baseImage, ...position);
-      return compositionImage.getBufferAsync(this._setMIME(mime));
+    if (size.length) baseImage.resize(...size);
+    if (invertBase) {
+      const invert = [compositionImage, baseImage];
+      baseImage = invert[0];
+      compositionImage = invert[1];
     }
+
+    baseImage.composite(compositionImage, ...position);
+    return baseImage.getBufferAsync(this._setMIME(mime));
   },
 
   _setMIME(mime) {
