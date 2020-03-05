@@ -9,5 +9,6 @@ module.exports = {
   Route: require('./structures/Route.js'),
 
   CryptoUtils: require('./utils/CryptoUtils.js'),
+  DiscordUtils: require('./utils/DiscordUtils.js'),
   JimpUtils: require('./utils/JimpUtils.js')
 };
