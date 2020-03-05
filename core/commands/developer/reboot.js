@@ -13,7 +13,7 @@ module.exports = {
       .setDescription(`:no_good::skin-tone-1: : Rebooting... I'll be right back!`)
     )
     .then(() => client.destroy())
-    .then(() => setTimeout(() => client.login(), ms(message.params[0])))
+    .then(() => setTimeout(() => client.login(), ms(message.parameters[0])))
     .catch((error) => client.log(error.message, { tags: ['commands', 'reboot'], color: 'red' }));
   }
 };

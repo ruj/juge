@@ -11,14 +11,14 @@ module.exports = {
 	requirements: { nsfwOnly: true, botPermissions: ['EMBED_LINKS'] },
 	async execute(client, message) {
 		try {
-			if (!message.params.length) {
+			if (!message.parameters.length) {
 				const boobs = await Boobs.getBoobs();
 
 				message.channel.send(new client.MessageEmbed()
 					.setColor(client.utils.hexColor(message))
 					.setImage(`${BASE_URL}/${boobs[0].preview}`)
 				);
-			} else if (message.params[0].toUpperCase() === 'NOISE') {
+			} else if (message.parameters[0].toUpperCase() === 'NOISE') {
 				const noise = await Boobs.getNoise();
 
 				message.channel.send(new client.MessageEmbed()

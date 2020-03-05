@@ -24,13 +24,13 @@ module.exports = async (client, message) => {
         const prefix = prefixes.reduce((accumulator, current) => message.content.includes(current) && current || accumulator, null);
 
         if (message.content.startsWith(prefix)) {
-          const params = message.content.slice(prefix.length).split(/ +/);
-          const commandName = params.shift().toLowerCase();
+          const parameters = message.content.slice(prefix.length).split(/ +/);
+          const commandName = parameters.shift().toLowerCase();
           let command = client.commands.get(commandName) || client.commands.find((command) => command.aliases && command.aliases.includes(commandName));
 
           if (!command) return;
 
-          message.params = params;
+          message.parameters = parameters;
           command.requirements = _.defaults(command.requirements, {
               devOnly: false,
               nsfwOnly: false,
@@ -51,7 +51,7 @@ module.exports = async (client, message) => {
             );
           }
 
-          if (command.requirements.parameters && !params.length) {
+          if (command.requirements.parameters && !parameters.length) {
             return message.reply('you did not provide any parameters.')
               .then(() => {
                 if (command.usage) {

@@ -9,13 +9,13 @@ module.exports = {
 	requirements: { botPermissions: ['EMBED_LINKS'], permissions: ['MANAGE_GUILD'] },
 	cooldown: 60,
 	execute(client, message) {
-		if (message.params.length) {
-			if (!client.config.prefixes.concat(`<@${client.user.id}> `).includes(message.params[0]) && !['DELETE', 'REMOVE', 'RESET'].includes(message.params[0].toUpperCase())) {
-				GuildRepository.update(message.guild, { $set: { prefix: message.params[0] } })
+		if (message.parameters.length) {
+			if (!client.config.prefixes.concat(`<@${client.user.id}> `).includes(message.parameters[0]) && !['DELETE', 'REMOVE', 'RESET'].includes(message.parameters[0].toUpperCase())) {
+				GuildRepository.update(message.guild, { $set: { prefix: message.parameters[0] } })
 					.then(() => {
 						message.channel.send(new client.MessageEmbed()
 							.setColor(client.utils.hexColor(message))
-							.addField(':asterisk: New prefix', client.utils.sendCode(message.params[0], { code: 'fix' }))
+							.addField(':asterisk: New prefix', client.utils.sendCode(message.parameters[0], { code: 'fix' }))
 						);
 					})
 					.catch((error) => {
@@ -24,7 +24,7 @@ module.exports = {
 							.setDescription(`:x: : Oops, **${error.message}**`)
 						);
 					});
-			} else if (['DELETE', 'REMOVE', 'RESET'].includes(message.params[0].toUpperCase())) {
+			} else if (['DELETE', 'REMOVE', 'RESET'].includes(message.parameters[0].toUpperCase())) {
 				GuildRepository.update(message.guild, { $set: { prefix: '' } })
 					.then(() => {
 						message.channel.send(new client.MessageEmbed()

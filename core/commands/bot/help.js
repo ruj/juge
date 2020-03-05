@@ -9,7 +9,7 @@ module.exports = {
   category: 'bot',
   requirements: { botPermissions: ['EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'] },
   execute(client, message) {
-    let [ parameter ] = message.params;
+    let [ parameter ] = message.parameters;
     const prefixUsed = message.content.replace(/(help|h).*/g, '');
 
     if (parameter) {
