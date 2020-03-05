@@ -1,4 +1,4 @@
-const { JimpUtils } = require('../../');
+const { DiscordUtils, JimpUtils } = require('../../');
 
 module.exports = {
 	name: 'gay',
@@ -8,17 +8,12 @@ module.exports = {
 	category: 'images',
 	requirements: { botPermissions: ['EMBED_LINKS', 'ATTACH_FILES'], typing: true },
 	cooldown: 10,
-	avatarOptions: { format: 'png', dynamic: true },
-	async execute(client, message, params) {
-		const avatarURL = message.mentions.users.size
-		? message.mentions.users.first().displayAvatarURL(this.avatarOptions)
-		: message.author.displayAvatarURL(this.avatarOptions);
+	async execute(client, message) {
+		const avatarURL = await DiscordUtils.fetchAvatarURL(message, { size: 512 });
 
-		message.channel.send({
-			files: [{
-				attachment: await JimpUtils.composite(avatarURL, 'png/gay.png', { size: 512 }),
-				name: 'gay.png'
-			}]
-		});
+		message.channel.send(new client.MessageAttachment(
+			await JimpUtils.composite(avatarURL, 'png/gay.png'),
+			'gay.png'
+		));
 	}
 };
