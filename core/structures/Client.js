@@ -1,4 +1,9 @@
-const { Client, Collection, MessageEmbed } = require('discord.js')
+const {
+	Client,
+	Collection,
+	MessageAttachment,
+	MessageEmbed
+} = require('discord.js')
 const chalk = require('chalk')
 const _ = require('lodash')
 
@@ -11,6 +16,7 @@ module.exports = class extends Client {
 		this.commands = new Collection()
 		this.aliases = new Collection()
 		this.cooldowns = new Collection()
+		this.MessageAttachment = MessageAttachment
 		this.MessageEmbed = MessageEmbed
 		this.utils = require('../utils')
 		this.config = config
