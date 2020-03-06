@@ -4,17 +4,22 @@ module.exports = {
 	description: 'Latency time',
 	category: 'bot',
 	requirements: { botPermissions: ['EMBED_LINKS'] },
-	execute(client, message) {
-		let initialDate = new Date();
-		let JugeLatency = new Date() - message.createdAt;
-		let messageLatency = new Date() - initialDate;
+	async execute(client, message) {
+		const _message = await message.channel.send('*Pinging...*');
+		const messageLatency = _message.createdTimestamp - message.createdTimestamp;
 
-		message.channel.send(new client.MessageEmbed()
+		_message.edit(new client.MessageEmbed()
 			.setColor(client.utils.hexColor(message))
-			.setDescription(`P${JugeLatency / 100 < 100 ? 'o' : 'o'.repeat(JugeLatency / 100)}ng!`)
-			.addField(':ping_pong: Message', client.utils.sendCode(`~${Math.round(messageLatency)}ms`, { code: 'js' }), true)
-			.addField(':robot: Roboto', client.utils.sendCode(`${Math.floor(JugeLatency)}ms`, { code: 'js' }), true)
-			.addField(':satellite: API', client.utils.sendCode(`${Math.floor(client.ws.ping)}ms`, { code: 'js' }), false)
+			.setDescription(`P${messageLatency / 100 < 100 ? 'o' : 'o'.repeat(messageLatency / 100)}ng!`)
+			.addFields([
+				{
+					name: ':ping_pong: Message',
+					value: client.utils.sendCode(`${messageLatency}ms`, { code: 'js' })
+				}, {
+					name: ':heartpulse: Heartbeat',
+					value: client.utils.sendCode(`${Math.floor(client.ws.ping)}ms`, { code: 'js' })
+				}
+			])
 		);
 	}
 };
