@@ -1,20 +1,20 @@
 module.exports = {
   resolveUser(message, id) {
+    const members = message.guild.members.cache;
+
     if (message.mentions.members.size) {
       id = message.mentions.members.first().id;
     } else if (!isNaN(message.parameters[0])) {
-      if (message.guild.members.cache.get(message.parameters[0])) {
-        id = message.guild.members.cache.get(message.parameters[0]).id;
+      if (members.get(message.parameters[0])) {
+        id = members.get(message.parameters[0]).id;
       } else {
         id = /^([0-9]){18}$/.test(message.parameters[0]) ? message.parameters[0] : message.member.id;
       }
     } else if (isNaN(message.parameters.join(' '))) {
-      const members = message.guild.members.cache;
       const username = message.parameters.join(' ').toLowerCase();
+      const member = members.filter(({ user }) => user.username.toLowerCase().startsWith(username)).first()
 
-      id = members.map(({ user }) => user.username.toLowerCase()).includes(username)
-      ? members.find(({ user }) => user.username.toLowerCase() === username).id
-      : message.member.id;
+      id = member ? member.id : message.member.id;
     } else {
       id = message.member.id;
     }
