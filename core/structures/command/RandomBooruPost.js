@@ -1,8 +1,10 @@
 const Booru = require('booru');
 const boorus = require('../../assets/json/booru_sites.json');
 
+const ignoreWords = ['LOLI', 'GORE'];
+
 module.exports = async (client, { content, channel, guild: { me }, parameters }, { name }) => {
-  if (!content.toUpperCase().includes('LOLI', 'GORE')) {
+  if (!new RegExp(ignoreWords.join('|')).test(content.toUpperCase())) {
     try {
       const posts = await Booru.search(boorus[name], [ parameters.join('_') ], { random: true });
 
