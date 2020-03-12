@@ -41,7 +41,7 @@ module.exports = {
 		} else {
 			const _message = await message.channel.send(new client.MessageEmbed()
 				.setColor(client.utils.hexColor(message))
-				.setDescription(`:tools: : Do you want me to \`${message.channel.nsfw ? 'DISABLE' : 'ENABLE'}\` NSFW content for you on this channel?`)
+				.setDescription(`:tools: : Do you want me to **${!message.channel.nsfw ? 'enable' : 'disable'}** NSFW content for you on this channel?`)
 			);
 
 			await _message.react('✅');
@@ -51,7 +51,7 @@ module.exports = {
 
 			collector.on('collect', (reaction) => {
 				if (reaction.emoji.name === '✅') {
-					message.channel.setNSFW(message.channel.nsfw ? false : true).then(() => {
+					message.channel.setNSFW(!message.channel.nsfw ? true : false).then(() => {
 						_message.edit(new client.MessageEmbed()
 							.setColor(client.utils.hexColor('SUCCESS'))
 							.setDescription(`:white_check_mark: : I **${message.channel.nsfw ? 'activated' : 'disabled'}** the NSFW filter for this channel.`)
@@ -61,7 +61,7 @@ module.exports = {
 				} else if (reaction.emoji.name === '❌') {
 					_message.edit(new client.MessageEmbed()
 						.setColor(client.utils.hexColor(message))
-						.setDescription(':octagonal_sign: : **Action canceled**')
+						.setDescription(':octagonal_sign: : NSFW filter toggle canceled')
 					).then((message) => message.delete({ timeout: 2555 }));
 					_message.reactions.removeAll();
 				}
