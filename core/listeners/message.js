@@ -1,5 +1,9 @@
 const _ = require('lodash');
-const { CommandRepository, GuildRepository } = require('../database/repositories');
+const {
+  CommandRepository,
+  GuildRepository,
+  UserRepository
+} = require('../database/repositories');
 
 module.exports = async (client, message) => {
 	if (!message.author.bot && message.channel.type !== 'dm') {
@@ -29,6 +33,9 @@ module.exports = async (client, message) => {
           let command = client.commands.get(commandName) || client.commands.find((command) => command.aliases && command.aliases.includes(commandName));
 
           if (!command) return;
+
+          const user = await UserRepository.findOne(message.author.id);
+          if (user && user.blacklisted) return;
 
           message.parameters = parameters;
           command.requirements = _.defaults(command.requirements, {
@@ -123,6 +130,7 @@ module.exports = async (client, message) => {
 			}
 		} catch (error) {
 			client.log(error.message, { tags: ['message'], color: 'red' });
+      console.log(error);
 		}
 	}
 };
