@@ -35,7 +35,7 @@ module.exports = async (client, message) => {
           if (!command) return;
 
           const user = await UserRepository.findOne(message.author.id);
-          if (user && user.blacklisted) return;
+          if (user && user.blacklisted && commandName !== 'whyblacklisted') return;
 
           message.parameters = parameters;
           command.requirements = _.defaults(command.requirements, {
