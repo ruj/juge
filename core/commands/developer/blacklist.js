@@ -11,6 +11,7 @@ module.exports = {
   async execute(client, message) {
     const [option, user] = message.parameters;
     const reason = message.parameters.slice(2).join(' ');
+    const prefixUsed = message.content.replace(/(blacklist|bl).*/g, '');
 
     if (message.parameters.length < 2) {
       /* [TODO: Flag that there are not enough parameters] */
@@ -19,8 +20,12 @@ module.exports = {
       const target = await client.users.fetch(user);
 
       if (option && option.toUpperCase() === 'ADD') {
-        /* [TODO: Flag that a reason was not received] */
-        if (!reason) return;
+        if (!reason) {
+          return message.channel.send(new client.MessageEmbed()
+            .setColor(client.utils.hexColor(message))
+            .addField(':page_facing_up: Usage', client.utils.sendCode(`${prefixUsed}${this.name} ${option.toLowerCase()} ${target.id} [reason]`, { code: 'fix' }))
+          );
+        }
 
         const userExists = await UserRepository.findOne(target.id);
 
