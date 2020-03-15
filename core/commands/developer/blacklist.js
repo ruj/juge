@@ -7,15 +7,17 @@ module.exports = {
   usage: '[add|remove] [user] [reason]',
   category: 'developer',
   requirements: { devOnly: true, botPermissions: ['EMBED_LINKS'] },
-  cooldown: 5,
+  cooldown: 30,
   async execute(client, message) {
     const [option, user] = message.parameters;
     const reason = message.parameters.slice(2).join(' ');
     const prefixUsed = message.content.replace(/(blacklist|bl).*/g, '');
 
     if (message.parameters.length < 2) {
-      /* [TODO: Flag that there are not enough parameters] */
-      return;
+      message.channel.send(new client.MessageEmbed()
+        .setColor(client.utils.hexColor(message))
+        .addField(':page_facing_up: Usage', client.utils.sendCode(`${prefixUsed}${this.name} ${option.toLowerCase()} [user]${option.toUpperCase() === 'ADD' ? ' [reason]' : ''}`, { code: 'fix' }))
+      );
     } else {
       const target = await client.users.fetch(user);
 
