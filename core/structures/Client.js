@@ -41,8 +41,8 @@ module.exports = class extends Client {
 		this.officialEmojis = emojis
 	}
 
-	getEmoji(emojiName) {
-		const matchingEmoji = this.officialEmojis.find((emoji) => emoji.name === emojiName)
-		return matchingEmoji.toString()
+	getEmoji(emojiName, solve = true) {
+		const matchingEmoji = this.officialEmojis.find((emoji) => emoji.name.toLowerCase() === emojiName.toLowerCase())
+		return solve ? matchingEmoji.toString() : matchingEmoji
 	}
 }
