@@ -20,6 +20,8 @@ module.exports = class extends Client {
 		this.MessageEmbed = MessageEmbed
 		this.utils = require('../utils')
 		this.config = config
+
+		this.officialEmojis
 	}
 
 	login(token = process.env.JUGE_TOKEN) {
@@ -32,5 +34,15 @@ module.exports = class extends Client {
 	} = {}) {
 		const colorista = _.get(chalk, color)
 		console.log(...tags.map((tag) => colorista(tag)), chalk.yellow(message))
+	}
+
+	getAndStoreEmojis() {
+		const emojis = this.emojis.cache.filter(({ guild }) => guild.id === process.env.JUGE_EMOJI_GUILD)
+		this.officialEmojis = emojis
+	}
+
+	getEmoji(emojiName) {
+		const matchingEmoji = this.officialEmojis.find((emoji) => emoji.name === emojiName)
+		return matchingEmoji.toString()
 	}
 }

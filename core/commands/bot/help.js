@@ -46,17 +46,12 @@ module.exports = {
     } else {
       message.channel.send(new client.MessageEmbed()
         .setColor(client.utils.hexColor(message))
-        .setTitle(`${resolveEmoji('669895916299485211')} ${client.user.username}'s Help`)
+        .setTitle(`${client.getEmoji('floater')} ${client.user.username}'s Help`)
         .setDescription(`*Use \`${prefixUsed}help <category/command>\` for more info about!*`)
         .addField('\u200B', [
-          `${resolveEmoji('563403841924497419')} [GitHub Repository](https://github.com/${JUGE_REPO_USERNAME}/${JUGE_REPO_NAME})`
+          `${client.getEmoji('github')} [GitHub Repository](https://github.com/${JUGE_REPO_USERNAME}/${JUGE_REPO_NAME})`
         ].join(' '))
       );
-    }
-
-    function resolveEmoji(_id) {
-      const { id, name } = client.emojis.cache.get(_id);
-      return `<:${name}:${id}>`;
     }
   }
 };

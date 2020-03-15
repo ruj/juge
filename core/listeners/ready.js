@@ -17,4 +17,6 @@ module.exports = (client) => {
 
 		setTimeout(activity, 60 * presences.length * 1E3);
 	}, (Math.random() * 10).toFixed(3) * 1E3);
+
+	client.getAndStoreEmojis();
 };
