@@ -7,7 +7,7 @@ module.exports = {
   usage: '[add|remove] [user] [reason]',
   category: 'developer',
   requirements: { devOnly: true, botPermissions: ['EMBED_LINKS'] },
-  cooldown: 30,
+  cooldown: 5,
   async execute(client, message) {
     const [option, user] = message.parameters;
     const reason = message.parameters.slice(2).join(' ');
@@ -27,23 +27,19 @@ module.exports = {
           );
         }
 
-        const userExists = await UserRepository.findOne(target.id);
+        const user = await UserRepository.get({ _id: target.id });
 
-        if (!userExists) {
-          const userAdded = await UserRepository.add(target);
-
-          UserRepository.update(userAdded._id, {
-            $set: {
-              blacklisted: {
-                reason,
-                blacklister: message.author.id
-              }
+        if (user && !user.blacklisted) {
+          UserRepository.update(user._id, {
+            blacklisted: {
+              reason,
+              blacklister: message.author.id
             }
           })
           .then(() => {
             message.channel.send(new client.MessageEmbed()
               .setColor(client.utils.hexColor(message))
-              .setDescription(`User **${userAdded._id}** was blacklisted.`)
+              .setDescription(`${client.getEmoji('YOU_ARE_BLACKLISTED')} User **${user._id}** was blacklisted.`)
             );
           })
           .catch((error) => {
@@ -55,18 +51,18 @@ module.exports = {
         } else {
           message.channel.send(new client.MessageEmbed()
             .setColor(client.utils.hexColor('WARNING'))
-            .setDescription(`:warning: : User **${userExists._id}** is already blacklisted.`)
+            .setDescription(`:warning: : User **${user._id}** is already blacklisted.`)
           );
         }
       } else if (option && option.toUpperCase() === 'REMOVE') {
-        const userExists = await UserRepository.findOne(target.id);
+        const user = await UserRepository.findOne(target.id);
 
-        if (userExists) {
-          UserRepository.remove(userExists._id)
+        if (user && user.blacklisted) {
+          UserRepository.update(user._id, { blacklisted: null })
             .then(() => {
               message.channel.send(new client.MessageEmbed()
                 .setColor(client.utils.hexColor(message))
-                .setDescription(`User **${userExists._id}** has been unblacklisted.`)
+                .setDescription(`:pencil: User **${user._id}** has been unblacklisted.`)
               );
             })
             .catch((error) => {
@@ -78,7 +74,7 @@ module.exports = {
         } else {
           message.channel.send(new client.MessageEmbed()
             .setColor(client.utils.hexColor('WARNING'))
-            .setDescription(`:warning: : User **${target.id}** is not blacklisted.`)
+            .setDescription(`:warning: : User **${user._id}** is not blacklisted.`)
           );
         }
       }
