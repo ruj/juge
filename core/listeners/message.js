@@ -35,7 +35,7 @@ module.exports = async (client, message) => {
           if (!command) return;
 
           const user = await UserRepository.findOne(message.author.id);
-          if (user && user.blacklisted && commandName !== 'whyblacklisted') return;
+          if (user && user.blacklisted && commandName !== 'whyblacklisted') return message.react(client.getEmoji('YOU_ARE_BLACKLISTED', false));
 
           message.parameters = parameters;
           command.requirements = _.defaults(command.requirements, {
