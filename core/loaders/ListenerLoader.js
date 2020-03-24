@@ -1,8 +1,4 @@
-const { promisify } = require('util');
-const { resolve } = require('path');
-const { readdir } = require('fs');
-
-const readdirAsync = promisify(readdir);
+const { FileUtils } = require('../');
 
 module.exports = {
   load(client) {
@@ -10,15 +6,8 @@ module.exports = {
   },
 
   async initializeListeners(client, directory = 'core/listeners') {
-    const files = await readdirAsync(directory);
-
-    files.forEach((file) => {
-      const path = resolve(directory, file);
-
-      if (file.endsWith('.js')) {
-        const event = require(path);
-        client.on(file.split('.')[0], event.bind(null, client));
-      }
-    });
+    return FileUtils.requireDirectory(directory, (listener, event) => {
+      client.on(event, listener.bind(null, client));
+    }, console.error);
   }
 };

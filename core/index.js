@@ -10,5 +10,6 @@ module.exports = {
 
   CryptoUtils: require('./utils/CryptoUtils.js'),
   DiscordUtils: require('./utils/DiscordUtils.js'),
+  FileUtils: require('./utils/FileUtils.js'),
   JimpUtils: require('./utils/JimpUtils.js')
 };
