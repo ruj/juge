@@ -16,6 +16,7 @@ module.exports = class extends Client {
 		this.commands = new Collection()
 		this.aliases = new Collection()
 		this.cooldowns = new Collection()
+		this.speeches = new Collection()
 		this.MessageAttachment = MessageAttachment
 		this.MessageEmbed = MessageEmbed
 		this.utils = require('../utils')
