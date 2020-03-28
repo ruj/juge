@@ -5,7 +5,7 @@ module.exports = {
     this.initializeCommands(client);
   },
 
-  async initializeCommands(client, directory = 'core/commands') {
+  initializeCommands(client, directory = 'core/commands') {
     return FileUtils.requireDirectory(directory, (command) => {
       client.commands.set(command.name, command);
 
