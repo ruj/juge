@@ -1,6 +1,6 @@
 const { readdir, stat } = require('fs');
 const { promisify } = require('util');
-const { resolve } = require('path');
+const { resolve, sep } = require('path');
 
 module.exports = {
   async requireDirectory(directory, success, error, recursive = true) {
@@ -12,13 +12,19 @@ module.exports = {
 
       if (file.endsWith('.js')) {
         try {
+          const subpath = path.split(sep).reverse()[1];
           const required = require(path);
+          const filename = file.split('.')[0];
 
           if (success) {
-            await success(required, file.split('.')[0]);
+            await success(required, filename, subpath);
           }
 
-          filesObject[file] = required;
+          filesObject[file] = {
+            subpath,
+            required,
+            filename
+          };
 
           return required;
         } catch (_error) {
