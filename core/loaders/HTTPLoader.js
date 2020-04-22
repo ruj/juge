@@ -1,13 +1,9 @@
-const { promisify } = require('util');
-const { resolve } = require('path');
-const { readdir } = require('fs');
 const express = require('express');
 const cors = require('cors');
 
-const { Route } = require('../');
+const { FileUtils } = require('../');
 
 const app = express();
-const readdirAsync = promisify(readdir);
 
 module.exports = {
   load(client) {
@@ -26,18 +22,12 @@ module.exports = {
   },
 
   async initializeRoutes(client, directory = 'core/http/api') {
-    const files = await readdirAsync(directory);
-
-    files.forEach((file) => {
-      const path = resolve(directory, file);
-
-      if (file.endsWith('.js')) {
-        this.addRoute(client, Object.assign(require(path), { name: file.split('.')[0] }));
-      }
-    });
+    return FileUtils.requireDirectory(directory, (route, routeName, subpath) => {
+      this.addRoute(client, Object.assign(route, { path: `/${subpath}/${routeName}` }));
+    }, console.error);
   },
 
   addRoute(client, route) {
-    route.register(client, app, Route.getPath(route.name));
+    route.register(client, app, route.path);
   }
 };
