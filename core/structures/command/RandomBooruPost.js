@@ -1,10 +1,10 @@
 const Booru = require('booru');
 const boorus = require('../../assets/json/booru_sites.json');
 
-const ignoreWords = ['LOLI', 'GORE'];
+const IGNORE_WORDS = ['loli', 'shota', 'cub', 'young', 'child', 'baby', 'guro', 'gore', 'vore', 'scat'];
 
 module.exports = async (client, { content, channel, guild: { me }, parameters }, { name }) => {
-  if (!new RegExp(ignoreWords.join('|')).test(content.toUpperCase())) {
+  if (!new RegExp(IGNORE_WORDS.join('|')).test(content.toLowerCase())) {
     try {
       const posts = await Booru.search(boorus[name], [ parameters.join('_') ], { random: true });
 
