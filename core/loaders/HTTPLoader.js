@@ -23,7 +23,7 @@ module.exports = {
 
   async initializeRoutes(client, directory = 'core/http/api') {
     return FileUtils.requireDirectory(directory, (route, routeName, subpath) => {
-      this.addRoute(client, Object.assign(route, { path: `/${subpath}/${routeName}` }));
+      this.addRoute(client, { ...route, path: `/${subpath}/${routeName}` });
     }, console.error);
   },
 
