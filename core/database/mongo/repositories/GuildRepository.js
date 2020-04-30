@@ -9,7 +9,7 @@ module.exports = {
 		});
 	},
 
-	findOne({ id }, projection) {
+	findOne(id, projection) {
 		return MongoRepository.findOne(Guild, id, projection);
 	},
 
@@ -17,15 +17,15 @@ module.exports = {
 		return MongoRepository.findAll(Guild, projection);
 	},
 
-	get({ id }, projection) {
+	get(id, projection) {
 		return MongoRepository.get(Guild, id, projection);
 	},
 
-	remove({ id }) {
+	remove(id) {
 		return MongoRepository.remove(Guild, id);
 	},
 
-	update({ id }, entity) {
+	update(id, entity) {
 		return MongoRepository.update(Guild, id, entity);
 	}
 };
