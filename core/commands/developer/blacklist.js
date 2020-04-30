@@ -1,5 +1,3 @@
-const { UserRepository } = require('../../database/repositories');
-
 module.exports = {
   name: 'blacklist',
   aliases: ['bl'],
@@ -29,10 +27,10 @@ module.exports = {
           );
         }
 
-        const user = await UserRepository.get({ _id: target.id });
+        const user = await client.database.users.get({ _id: target.id });
 
         if (user && !user.blacklisted) {
-          UserRepository.update(user._id, {
+          client.database.users.update(user._id, {
             blacklisted: {
               reason,
               blacklister: message.author.id
@@ -57,10 +55,10 @@ module.exports = {
           );
         }
       } else if (option && option.toUpperCase() === 'REMOVE') {
-        const user = await UserRepository.findOne(target.id);
+        const user = await client.database.users.findOne(target.id);
 
         if (user && user.blacklisted) {
-          UserRepository.update(user._id, { blacklisted: null })
+          client.database.users.update(user._id, { blacklisted: null })
             .then(() => {
               message.channel.send(new client.MessageEmbed()
                 .setColor(client.utils.hexColor(message))

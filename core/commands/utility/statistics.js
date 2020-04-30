@@ -1,5 +1,3 @@
-const { CommandRepository } = require('../../database/repositories');
-
 module.exports = {
   name: 'statistics',
   aliases: ['stats'],
@@ -8,7 +6,7 @@ module.exports = {
   requirements: { botPermissions: ['EMBED_LINKS'] },
   cooldown: 15,
   async execute(client, message) {
-    const commands = await CommandRepository.findAll();
+    const commands = await client.database.commands.findAll();
 
     message.channel.send(new client.MessageEmbed()
       .setColor(client.utils.hexColor(message))

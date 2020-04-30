@@ -1,5 +1,3 @@
-const { GuildRepository } = require('../../database/repositories');
-
 module.exports = {
 	name: 'prefix',
 	aliases: ['prefixes', 'setprefix', 'newprefix'],
@@ -11,7 +9,7 @@ module.exports = {
 	execute(client, message) {
 		if (message.parameters.length) {
 			if (!client.config.prefixes.concat(`<@${client.user.id}> `).includes(message.parameters[0]) && !['DELETE', 'REMOVE', 'RESET'].includes(message.parameters[0].toUpperCase())) {
-				GuildRepository.update(message.guild, { $set: { prefix: message.parameters[0] } })
+				client.database.guilds.update(message.guild.id, { $set: { prefix: message.parameters[0] } })
 					.then(() => {
 						message.channel.send(new client.MessageEmbed()
 							.setColor(client.utils.hexColor(message))
@@ -25,7 +23,7 @@ module.exports = {
 						);
 					});
 			} else if (['DELETE', 'REMOVE', 'RESET'].includes(message.parameters[0].toUpperCase())) {
-				GuildRepository.update(message.guild, { $set: { prefix: '' } })
+				client.database.guilds.update(message.guild.id, { $set: { prefix: '' } })
 					.then(() => {
 						message.channel.send(new client.MessageEmbed()
 							.setColor(client.utils.hexColor('SUCCESS'))
@@ -45,7 +43,7 @@ module.exports = {
 				);
 			}
 		} else {
-			GuildRepository.findOne(message.guild)
+			client.database.guilds.findOne(message.guild.id)
 				.then((guild) => {
 					const prefixes = client.config.prefixes.concat(guild.prefix);
 					const embed = new client.MessageEmbed()

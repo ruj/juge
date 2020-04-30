@@ -1,14 +1,9 @@
 const _ = require('lodash');
-const {
-  CommandRepository,
-  GuildRepository,
-  UserRepository
-} = require('../database/repositories');
 
 module.exports = async (client, message) => {
 	if (!message.author.bot && message.channel.type !== 'dm') {
 		try {
-			const guild = await GuildRepository.findOne(message.guild);
+			const guild = await client.database.guilds.findOne(message.guild.id);
 
 			if (guild !== null) {
 				let prefixes = client.config.prefixes.concat(guild.prefix);
@@ -34,7 +29,7 @@ module.exports = async (client, message) => {
 
           if (!command) return;
 
-          const user = await UserRepository.findOne(message.author.id);
+          const user = await client.database.users.findOne(message.author.id);
           if (user && user.blacklisted && commandName !== 'whyblacklisted') return message.react(client.getEmoji('YOU_ARE_BLACKLISTED', false));
 
           message.parameters = parameters;
@@ -104,11 +99,12 @@ module.exports = async (client, message) => {
           setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
           try {
-            const commandExists = await CommandRepository.findOne(command.name);
-            if (commandExists) {
-              await CommandRepository.update(command.name, { $inc: { count: 1 } });
-            } else {
-              await CommandRepository.add(command);
+            if (process.env.NODE_ENV) {
+              const commandExists = await client.database.commands.findOne(command.name);
+
+              await commandExists
+                ? client.database.commands.update(command.name, { $inc: { count: 1 } })
+                : client.database.commands.add(command);
             }
 
             if (command.requirements.typing) message.channel.startTyping();
@@ -122,7 +118,7 @@ module.exports = async (client, message) => {
           }
         }
 			} else if (guild === null) {
-				const addGuild = await GuildRepository.add(message.guild);
+				const addGuild = await client.database.guilds.add(message.guild);
 				message.channel.send(new client.MessageEmbed()
           .setColor(client.utils.hexColor('WARNING'))
           .setDescription(':warning: : I noticed that the server information is not in my records, I am correcting now, try again later.')
