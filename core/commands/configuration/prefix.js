@@ -8,7 +8,7 @@ module.exports = {
 	cooldown: 60,
 	execute(client, message) {
 		if (message.parameters.length) {
-			if (!client.config.prefixes.concat(`<@${client.user.id}> `).includes(message.parameters[0]) && !['DELETE', 'REMOVE', 'RESET'].includes(message.parameters[0].toUpperCase())) {
+			if (!client.config.prefixes.concat(`<@!${client.user.id}>`).includes(message.parameters[0]) && !['DELETE', 'REMOVE', 'RESET'].includes(message.parameters[0].toUpperCase())) {
 				client.database.guilds.update(message.guild.id, { $set: { prefix: message.parameters[0] } })
 					.then(() => {
 						message.channel.send(new client.MessageEmbed()
