@@ -9,13 +9,12 @@ module.exports = {
   category: 'bot',
   requirements: { botPermissions: ['EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'] },
   execute(client, message) {
-    let [ parameter ] = message.parameters;
+    let [parameter] = message.parameters;
     const prefixUsed = message.content.replace(/(help|h).*/g, '');
+    const categories = client.utils.uniqueItems(client.commands.filter(({ category }) => category !== 'developer').map(({ category }) => category));
 
     if (parameter) {
       parameter = parameter.toLowerCase();
-
-      const categories = client.utils.uniqueItems(client.commands.filter(({ category }) => category !== 'developer').map(({ category }) => category));
 
       if (!client.commands.has(parameter) && !categories.includes(parameter)) parameter = client.commands.filter(({ aliases }) => aliases.includes(parameter)).map(({ name }) => name)[0];
       if (client.commands.has(parameter)) {
@@ -48,7 +47,15 @@ module.exports = {
         .setColor(client.utils.hexColor(message))
         .setTitle(`${client.getEmoji('floater')} ${client.user.username}'s Help`)
         .setDescription(`*Use \`${prefixUsed}help <category/command>\` for more info about!*`)
-        .addField('\u200B', [
+        .addFields(categories
+          .map((_category) => client.commands.filter(({ category }) => category === _category).map(({ name }) => name))
+          .map((commands, index) => ({ category: categories[index], commands }))
+          .map(({ category, commands }) => ({
+            name: `${friendlyCategories[category].icon} ${friendlyCategories[category].name}`,
+            value: client.utils.sendCode(commands.length > 3
+              ? `${commands.slice(0, 3).join(' ')} ... ${commands.length - 3} more`
+              : commands.join(' '), { code: 'xl' }) })))
+        .addField('­', [
           `${client.getEmoji('github')} [GitHub Repository](https://github.com/${JUGE_REPO_USERNAME}/${JUGE_REPO_NAME})`
         ].join(' '))
       );
