@@ -9,7 +9,7 @@ module.exports = {
 	execute(client, message) {
 		if (message.parameters.length) {
 			if (!client.config.prefixes.concat(`<@!${client.user.id}>`).includes(message.parameters[0]) && !['DELETE', 'REMOVE', 'RESET'].includes(message.parameters[0].toUpperCase())) {
-				client.database.guilds.update(message.guild.id, { $set: { prefix: message.parameters[0] } })
+				client.database.guilds.update(message.guild.id, { $set: { prefix: { value: message.parameters[0] } } })
 					.then(() => {
 						message.channel.send(new client.MessageEmbed()
 							.setColor(client.utils.hexColor(message))
@@ -23,7 +23,7 @@ module.exports = {
 						);
 					});
 			} else if (['DELETE', 'REMOVE', 'RESET'].includes(message.parameters[0].toUpperCase())) {
-				client.database.guilds.update(message.guild.id, { $set: { prefix: '' } })
+				client.database.guilds.update(message.guild.id, { $set: { prefix: { value: '' } } })
 					.then(() => {
 						message.channel.send(new client.MessageEmbed()
 							.setColor(client.utils.hexColor('SUCCESS'))
@@ -45,13 +45,13 @@ module.exports = {
 		} else {
 			client.database.guilds.findOne(message.guild.id)
 				.then((guild) => {
-					const prefixes = client.config.prefixes.concat(guild.prefix);
+					const prefixes = client.config.prefixes.concat(guild.prefix.value);
 					const embed = new client.MessageEmbed()
 						.setColor(client.utils.hexColor(message))
 						.addField(':globe_with_meridians: Global prefixes', client.utils.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
-						.addField(':house: Server prefix', client.utils.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
+						.addField(':house: Server prefix', client.utils.sendCode(guild.prefix.value ? guild.prefix.value : 'Not yet defined', { code: 'fix' }))
 
-						if (new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime()) embed.setFooter(`Updated ${client.utils.days(guild.updatedAt, { extended: false }) > 0 ? `${client.utils.days(guild.updatedAt)} ago` : 'today'}`);
+						if (new Date(guild.createdAt).getTime() !== new Date(guild.prefix.updatedAt).getTime()) embed.setFooter(`Updated ${client.utils.days(guild.prefix.updatedAt, { extended: false }) > 0 ? `${client.utils.days(guild.prefix.updatedAt)} ago` : 'today'}`);
 
 					message.channel.send(embed);
 				})

@@ -5,7 +5,9 @@ module.exports = {
 	add(guild) {
 		return MongoRepository.add(Guild, {
 			_id: guild.id,
-			prefix: ''
+			prefix: {
+				value: ''
+			}
 		});
 	},
 

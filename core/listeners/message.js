@@ -6,16 +6,16 @@ module.exports = async (client, message) => {
 			const guild = await client.database.guilds.findOne(message.guild.id);
 
 			if (guild !== null) {
-				let prefixes = client.config.prefixes.concat(guild.prefix);
+				let prefixes = client.config.prefixes.concat(guild.prefix.value);
 
 				Array(`<@${client.user.id}>`, `<@!${client.user.id}>`).find((mention) => {
 					if (message.content.startsWith(mention)) {
 						const embed = new client.MessageEmbed()
 							.setColor(client.utils.hexColor(message))
 							.addField(':globe_with_meridians: Global prefixes', client.utils.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
-							.addField(':house: Server prefix', client.utils.sendCode(guild.prefix ? guild.prefix : 'Not yet defined', { code: 'fix' }))
+							.addField(':house: Server prefix', client.utils.sendCode(guild.prefix.value ? guild.prefix.value : 'Not yet defined', { code: 'fix' }))
 
-              if (new Date(guild.createdAt).getTime() !== new Date(guild.updatedAt).getTime()) embed.setFooter(`Updated ${client.utils.days(guild.updatedAt, { extended: false }) > 0 ? `${client.utils.days(guild.updatedAt)} ago` : 'today'}`);
+              if (new Date(guild.createdAt).getTime() !== new Date(guild.prefix.updatedAt).getTime()) embed.setFooter(`Updated ${client.utils.days(guild.prefix.updatedAt, { extended: false }) > 0 ? `${client.utils.days(guild.prefix.updatedAt)} ago` : 'today'}`);
             message.channel.send(embed);
 					}
 				});
@@ -118,15 +118,15 @@ module.exports = async (client, message) => {
           }
         }
 			} else if (guild === null) {
-				const addGuild = await client.database.guilds.add(message.guild);
-				message.channel.send(new client.MessageEmbed()
-          .setColor(client.utils.hexColor('WARNING'))
-          .setDescription(':warning: : I noticed that the server information is not in my records, I am correcting now, try again later.')
-        );
+				client.database.guilds.add(message.guild)
+          .then(() => message.channel.send(new client.MessageEmbed()
+            .setColor(client.utils.hexColor('WARNING'))
+            .setDescription(':warning: : I noticed that the server information is not in my records, I am correcting now, try again later.')
+          ))
+          .catch((error) => client.log(error.message, { tags: ['message', 'guilds#add'], color: 'red' }));
 			}
 		} catch (error) {
 			client.log(error.message, { tags: ['message'], color: 'red' });
-      console.log(error);
 		}
 	}
 };
