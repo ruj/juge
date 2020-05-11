@@ -1,9 +1,10 @@
 const { Schema, model } = require('mongoose');
 
 const PrefixSchema = new Schema({
-  value: {
-    type: String,
-    required: true
+  value: String,
+  global: {
+    type: Boolean,
+    default: true
   }
 }, {
   _id: false,

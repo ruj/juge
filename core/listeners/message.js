@@ -12,15 +12,23 @@ module.exports = async (client, message) => {
 					if (message.content.startsWith(mention)) {
 						const embed = new client.MessageEmbed()
 							.setColor(client.utils.hexColor(message))
-							.addField(':globe_with_meridians: Global prefixes', client.utils.sendCode(`${prefixes.slice(0, -1).join(' or ')}`, { code: 'fix' }))
-							.addField(':house: Server prefix', client.utils.sendCode(guild.prefix.value ? guild.prefix.value : 'Not yet defined', { code: 'fix' }))
+              .addFields([
+                (client.utils.insertIf(guild.prefix.global, {
+                  name: ':globe_with_meridians: Global prefixes',
+                  value: client.utils.sendCode(prefixes.slice(0, -1).join(' or '), { code: 'fix' })
+                })), {
+                  name: ':house: Server prefix',
+                  value: client.utils.sendCode(guild.prefix.value ? guild.prefix.value : 'Not yet defined', { code: 'fix' })
+                }
+              ].filter(Boolean));
 
               if (new Date(guild.createdAt).getTime() !== new Date(guild.prefix.updatedAt).getTime()) embed.setFooter(`Updated ${client.utils.days(guild.prefix.updatedAt, { extended: false }) > 0 ? `${client.utils.days(guild.prefix.updatedAt)} ago` : 'today'}`);
+
             message.channel.send(embed);
 					}
 				});
 
-        const prefix = prefixes.reduce((accumulator, current) => message.content.includes(current) && current || accumulator, null);
+        const prefix = guild.prefix.global ? prefixes.reduce((accumulator, current) => message.content.includes(current) && current || accumulator, null) : guild.prefix.value;
 
         if (message.content.startsWith(prefix)) {
           const parameters = message.content.slice(prefix.length).split(/ +/);
