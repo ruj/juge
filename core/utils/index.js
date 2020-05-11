@@ -31,6 +31,10 @@ module.exports = {
     }
   },
 
+  insertIf(condition, data) {
+    return condition ? data : undefined;
+  },
+
   leading(text, {
     side = 'left',
     width = 10,
