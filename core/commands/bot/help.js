@@ -16,7 +16,12 @@ module.exports = {
     if (parameter) {
       parameter = parameter.toLowerCase();
 
-      if (!client.commands.has(parameter) && !categories.includes(parameter)) parameter = client.commands.filter(({ aliases }) => aliases.includes(parameter)).map(({ name }) => name)[0];
+      if (!client.commands.has(parameter) && !categories.includes(parameter)) {
+        const command = client.commands.filter(({ aliases }) => aliases.includes(parameter)).map(({ name }) => name)[0];
+        const category = Object.entries(friendlyCategories).filter(([, { aliases }]) => aliases && aliases.map((alias) => alias.startsWith(message.parameters.join('_').toLowerCase()))[0]).map(([category]) => category)[0];
+
+        parameter = command ? command : category ? category : parameter;
+      }
       if (client.commands.has(parameter)) {
         const {
           name,

@@ -1,30 +1,47 @@
 {
   "bot": {
     "icon": ":robot:",
-    "name": "Bot"
+    "name": "Bot",
+    "aliases": ["roboto"]
   },
   "configuration": {
     "icon": ":gear:",
-    "name": "Configuration"
+    "name": "Configuration",
+    "aliases": [
+      "conf",
+      "config",
+      "settings"
+    ]
   },
   "developer": {
     "icon": ":detective_tone1:",
-    "name": "Developer"
+    "name": "Developer",
+    "aliases": ["dev"]
   },
   "images": {
     "icon": ":frame_photo:",
-    "name": "Images"
+    "name": "Images",
+    "aliases": [
+      "img",
+      "image"
+    ]
   },
   "memes": {
     "icon": ":joy:",
-    "name": "Memes"
+    "name": "Memes",
+    "aliases": []
   },
   "nsfw": {
     "icon": ":underage:",
-    "name": "Not Safe For Work"
+    "name": "Not Safe For Work",
+    "aliases": ["not_safe_for_work"]
   },
   "utility": {
     "icon": ":tools:",
-    "name": "Utility"
+    "name": "Utility",
+    "aliases": [
+      "utils",
+      "utilities"
+    ]
   }
 }
