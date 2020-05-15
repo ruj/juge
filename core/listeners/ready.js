@@ -13,7 +13,7 @@ module.exports = (client) => {
 				name: `${client.users.cache.filter((user) => !user.bot && user.presence.status !== 'offline').array().length} Users`,
 				type: 'WATCHING'
 			}, {
-				name: `${client.guilds.cache.filter(({ memberCount }) => memberCount > 25).size} Guilds`,
+				name: `${client.guilds.cache.filter(({ memberCount }) => memberCount >= 25).size} Guilds`,
 				type: 'WATCHING'
 			}
 		];
