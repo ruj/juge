@@ -1,3 +1,5 @@
+> **NOTICE**: This repository is no longer seen as before, this means that it does not undergo new changes frequently unless they are necessary or sufficiently relevant.
+
 <p align="center">
 	<img src="https://a.kyouko.se/dcaP.png">
 	<br>
